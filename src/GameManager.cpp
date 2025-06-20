@@ -1,7 +1,7 @@
 #include "GameManager.h"
-#include <iostream>
-#include <cstdlib> // rand(), srand()
+#include <cstdlib>  // rand(), srand()
 #include <ctime>   // time() for random seed
+#include <iostream> 
 
 using namespace std;
 
@@ -61,10 +61,12 @@ void GameManager::GameLoop()
     // 게임 루프 로직 구현
     // 예: 몬스터 생성, 전투, 레벨업 등
     cout << "게임 루프 시작...\n";
-    while (Player->getLevel < MaxLevel) {
+    while (Player->getLevel < MaxLevel) 
+    {
         Monster* enemy = GenerateMonster(Player->getlevel);
         Battle(enemy, Player);
-        if (Player->getHealth() <= 0) {
+        if (Player->getHealth() <= 0) 
+        {
             cout << "게임 오버!\n";
             break;
         }
@@ -76,13 +78,15 @@ void GameManager::GameLoop()
 void GameManager::LevelUp() 
 {
     // 최대 레벨 10으로 제한
-    if (Player->getLevel() >= 10) {
+    if (Player->getLevel() >= 10) 
+    {
         cout << "최대 레벨에 도달했습니다! 현재 레벨: " << Player->getLevel() << "\n";
         return;  // 레벨업을 더 이상 진행하지 않음
     }
 
     // 경험치가 충분할 경우 레벨업 처리
-    if (Player->getExperience() >= MaxExperience) {
+    if (Player->getExperience() >= MaxExperience) 
+    {
         // 레벨 상승
         Player->setLevel(Player->getLevel() + 1);
 
@@ -178,7 +182,8 @@ void GameManager::Battle(Monster* Enemy, Character* Player)
         // 플레이어 공격
         Enemy->takeDamage(Player->getAttack());
         cout << "플레이어가 적에게 " << Player->getAttack() << " 데미지를 입혔습니다.\n";
-        if (Enemy->getHealth() <= 0) {
+        if (Enemy->getHealth() <= 0) 
+        {
             cout << "적을 처치했습니다!\n";
             Experience += 50;  // 경험치 50 획득
             Gold += earnedGold;  // 전투에서 획득한 골드 추가
@@ -189,7 +194,8 @@ void GameManager::Battle(Monster* Enemy, Character* Player)
         // 적 공격
         Player->takeDamage(Enemy->getAttack());
         cout << "적이 플레이어에게 " << Enemy->getAttack() << " 데미지를 입혔습니다.\n";
-        if (Player->getHealth() <= 0) {
+        if (Player->getHealth() <= 0) 
+        {
             cout << "플레이어가 쓰러졌습니다!\n";
             AddLog("플레이어가 쓰러졌습니다.");
             break;
@@ -247,3 +253,4 @@ GameManager::~GameManager()
     delete GameShop;  // GameShop 메모리 해제
     // 추가적인 메모리 해제 로직 필요 시 구현
 }
+

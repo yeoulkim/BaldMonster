@@ -1,7 +1,7 @@
 #pragma once
+
 #include <vector>
 #include <string>
-#include "GameManager.h"
 
 class Character;
 class Monster;
@@ -12,17 +12,16 @@ class Shop;
 class GameManager 
 {
 public:
-    GameManager();
-    ~GameManager();
+    // GameManager();
+    // ~GameManager();
 
     void startGame();
-    void endGame();
-
-private:
+    
+    private:
     class Character* Player = nullptr;
     class Shop* GameShop = nullptr;
     std::vector<std::string> GameLog;
-
+    
     // 초기화
     int Level = 1;
     int MaxLevel = 10;
@@ -33,7 +32,8 @@ private:
     int Attack = 30;
     int Gold = 0;
     int InventorySize = 10;
-
+    
+    void endGame();
     void GameLoop();
     void CreateCharacter(std::string Name);
     void DisplayStatus();   // Player의 상태 직접 사용
