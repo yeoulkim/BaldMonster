@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build game",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-g",                          // 디버깅 정보 포함
+        // "src/*.cpp",                   // 모든 cpp 파일 컴파일
+        "src/main.cpp",
+        "src/GameManager.cpp",
+        "-Iinclude",                   // 헤더 경로 지정
+        "-std=c++17",
+        "-o",
+        "bin/BaldMonster"             // 실행 파일 경로
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
