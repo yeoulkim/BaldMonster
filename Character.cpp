@@ -1,22 +1,24 @@
 #include "Character.h"
 
-Character::Character(std::string name, int level, int health, int attack, int experience)
-    : name(name), level(level), health(health), maxHealth(health), attack(attack), experience(experience) {
+Character::Character(std::string Name, int Level, int Health, int Attack, int Experience)
+    : Name(Name), Level(Level), Health(Health), MaxHealth(Health), Attack(Attack), Experience(Experience)
+{
 }
 
-std::string Character::getName() const { return name; }
-int Character::getLevel() const { return level; }
-int Character::getHealth() const { return health; }
-int Character::getMaxHealth() const { return maxHealth; }
-int Character::getAttack() const { return attack; }
-int Character::getExperience() const { return experience; }
+std::string Character::GetName() const { return Name; }
+int Character::GetLevel() const { return Level; }
+int Character::GetHealth() const { return Health; }
+int Character::GetMaxHealth() const { return MaxHealth; }
+int Character::GetAttack() const { return Attack; }
+int Character::GetExperience() const { return Experience; }
 
-void Character::setLevel(int l) { level = l; }
-void Character::setHealth(int h) { health = h; }
-void Character::setAttack(int a) { attack = a; }
-void Character::setExperience(int e) { experience = e; }
+void Character::SetLevel(int NewLevel) { Level = NewLevel; }
+void Character::SetHealth(int NewHealth) { Health = NewHealth; }
+void Character::SetAttack(int NewAttack) { Attack = NewAttack; }
+void Character::SetExperience(int NewExp) { Experience = NewExp; }
 
-void Character::takeDamage(int damage) {
-    health -= damage;
-    if (health < 0) health = 0;
+void Character::TakeDamage(int Damage)
+{
+    Health -= Damage;
+    if (Health < 0) Health = 0;
 }

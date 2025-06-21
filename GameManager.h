@@ -1,50 +1,37 @@
 #pragma once
 
-#include <vector>
+#include "UObjectBase.h"
+#include "Character.h"
+#include "Monster.h"
+#include "BossMonster.h"
 #include <string>
+#include <vector>
 
-class Character;
-class Monster;
-class BossMonster;
-class Item;
-class Shop;
-
-class GameManager
+class GameManager : public UObjectBase
 {
 public:
-     GameManager();
-     ~GameManager();
+    GameManager();
+    virtual ~GameManager();
 
-    void startGame();
+    virtual void BeginPlay() override;
+    virtual void Tick(float DeltaTime) override;
+
+    void CreateCharacter(std::string Name);
+    void DisplayStatus(int Level);
+    void AddLog(std::string Message);
+    void StartRandomBattle(Character* Player);
+    void Battle(Monster* Enemy, Character* Player);
+    void LevelUp();
+    void EndGame();  // 🔥 수정: endGame → EndGame
+    void VisitShop();
+    void DisplayInventory(Character* Player);
+    void ShowGameLog(std::string Message);
 
 private:
-    class Character* Player = nullptr;
-    class Shop* GameShop = nullptr;
-    std::vector<std::string> GameLog;
-
-    // 초기화
-    int Level = 1;
-    int MaxLevel = 10;
-    int Experience = 0;
-    int MaxExperience = 100;
-    int Health = 200;
-    int MaxHealth = 200;
-    int Attack = 30;
+    Character* Player = nullptr;
     int Gold = 0;
-    int InventorySize = 10;
-
-    void endGame();
-    void GameLoop();
-    void CreateCharacter(std::string Name);
-    void DisplayStatus(int);   // Player의 상태 직접 사용
-    void LevelUp();
-    void Battle(class Monster* Enemy, class Character* Player);
-    class Monster* GenerateMonster(int Level);
-    class BossMonster* GenerateBossMonster(int Level);
-    void VisitShop();
-    void DisplayInventory(class Character* Player);
-    void ShowGameLog(std::string Message);
-    void AddLog(std::string Message);
-    void StartRandomBattle(class Character* Player);
+    int MaxExperience = 100;
+    int MaxLevel = 10;
+    int InventorySize = 0;
+    std::vector<std::string> GameLog;
 };
-

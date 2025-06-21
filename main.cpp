@@ -1,15 +1,9 @@
 #include "GameManager.h"
-#include <cstdlib>  // rand(), srand()
-#include <ctime>   // time() for random seed
-#include <iostream> 
-
-using namespace std;
 
 int main()
 {
-    GameManager gameManager;
-    gameManager.startGame();
-
-
+    GameManager* Manager = new GameManager();
+    Manager->Run();  // ✅ 언리얼처럼 BeginPlay → Tick 반복 실행
+    delete Manager;
     return 0;
 }

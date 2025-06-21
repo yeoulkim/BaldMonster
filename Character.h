@@ -1,29 +1,30 @@
 #pragma once
 #include <string>
 
-class Character {
+class Character
+{
 private:
-    std::string name;
-    int level;
-    int health;
-    int maxHealth;
-    int attack;
-    int experience;
+    std::string Name;
+    int Level;
+    int Health;
+    int MaxHealth;
+    int Attack;
+    int Experience;
 
 public:
-    Character(std::string name, int level, int health, int attack, int experience);
+    Character(std::string Name, int Level, int Health, int Attack, int Experience);
 
-    std::string getName() const;
-    int getLevel() const;
-    int getHealth() const;
-    int getMaxHealth() const;
-    int getAttack() const;
-    int getExperience() const;
+    std::string GetName() const;
+    int GetLevel() const;
+    int GetHealth() const;
+    int GetMaxHealth() const;
+    int GetAttack() const;
+    int GetExperience() const;
 
-    void setLevel(int l);
-    void setHealth(int h);
-    void setAttack(int a);
-    void setExperience(int e);
+    void SetLevel(int Level);
+    void SetHealth(int Health);
+    void SetAttack(int Attack);
+    void SetExperience(int Experience);
 
-    void takeDamage(int damage);
+    void TakeDamage(int Damage);
 };

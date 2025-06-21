@@ -1,16 +1,16 @@
 #pragma once
 
-class Monster {
+class Monster
+{
 protected:
-    int health;
-    int attack;
+    int Health;
+    int Attack;
 
 public:
-    Monster(int hp, int atk);
+    Monster(int Hp, int Atk);
     virtual ~Monster() {}
 
-    int getHealth() const;
-    int getAttack() const;
-    void takeDamage(int dmg);
+    int GetHealth() const;
+    int GetAttack() const;
+    void TakeDamage(int Dmg);
 };
-

@@ -1,11 +1,23 @@
 #include "Monster.h"
 
-Monster::Monster(int hp, int atk) : health(hp), attack(atk) {}
+Monster::Monster(int Hp, int Atk)
+    : Health(Hp), Attack(Atk)
+{
+}
 
-int Monster::getHealth() const { return health; }
-int Monster::getAttack() const { return attack; }
+int Monster::GetHealth() const
+{
+    return Health;
+}
 
-void Monster::takeDamage(int dmg) {
-    health -= dmg;
-    if (health < 0) health = 0;
+int Monster::GetAttack() const
+{
+    return Attack;
+}
+
+void Monster::TakeDamage(int Dmg)
+{
+    Health -= Dmg;
+    if (Health < 0)
+        Health = 0;
 }
