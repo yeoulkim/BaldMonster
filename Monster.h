@@ -1,16 +1,58 @@
 #pragma once
 
-class Monster
-{
+#include <string>
+// #include <memory>
+// #include "item.h"
+
+// 몬스터 클래스
+class Monster {
 protected:
-    int Health;
-    int Attack;
-
+    std::string name;
+    int health;
+    int attack;
 public:
-    Monster(int Hp, int Atk);
-    virtual ~Monster() {}
+    Monster(std::string n, int h, int a);
+    virtual ~Monster() = default;
+    const std::string& getName() const;
+    int getHealth() const;
+    int getAttack() const;
+    void takeDamage(int dmg);
+    // Item 관련 코드 추후 구현할 때 주석 해제
+    // virtual std::unique_ptr<Item> dropItem();
+};
 
-    int GetHealth() const;
-    int GetAttack() const;
-    void TakeDamage(int Dmg);
+// 노랭이
+class Yellow : public Monster {
+public:
+    Yellow(int lvl);
+};
+
+// 하양이
+class White : public Monster {
+public:
+    White(int lvl);
+};
+
+// 초록이
+class Green : public Monster {
+public:
+    Green(int lvl);
+};
+
+// 파랭이
+class Blue : public Monster {
+public:
+    Blue(int lvl);
+};
+
+// 빨갱이
+class Pink : public Monster {
+public:
+    Pink(int lvl);
+};
+
+// 깜댕이
+class Black : public Monster {
+public:
+    Black(int lvl);
 };

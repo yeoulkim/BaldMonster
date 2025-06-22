@@ -1,77 +1,29 @@
-// 📌 부모 클래스: UObjectBase (언리얼 스타일 흉내)
-#pragma once
 #include "GameManager.h"
+#include "Character.h"
+#include "Monster.h"
+#include "BossMonster.h"
+
 #include <iostream>
-#include <thread>
-#include <chrono>
-
-class UObjectBase
-{
-public:
-    UObjectBase();
-    virtual ~UObjectBase();
-
-    void Run();  // BeginPlay -> Tick 반복 실행
-
-protected:
-    bool bIsTickEnabled;
-    float DeltaTime;
-
-    virtual void BeginPlay();
-    virtual void Tick(float DeltaTime);
-};
-
-// 📌 부모 클래스 구현
-#include "UObjectBase.h"
-
-UObjectBase::UObjectBase()
-{
-    bIsTickEnabled = true;
-    DeltaTime = 0.5f;
-}
-
-UObjectBase::~UObjectBase() {}
-
-void UObjectBase::Run()
-{
-    BeginPlay();
-
-    while (bIsTickEnabled)
-    {
-        Tick(DeltaTime);
-        std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(DeltaTime * 1000)));
-    }
-}
-
-void UObjectBase::BeginPlay()
-{
-    std::cout << "[UObjectBase] BeginPlay()\n";
-}
-
-void UObjectBase::Tick(float DeltaTime)
-{
-    std::cout << "[UObjectBase] Tick: " << DeltaTime << "초 경과\n";
-}
-
-// 📌 GameManager 클래스 상속 버전
-#include "GameManager.h"
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
+
+using namespace std;
 
 GameManager::GameManager()
 {
-    std::cout << "게임 매니저 초기화...\n";
+    cout << "게임 매니저 초기화...\n";
 }
 
 GameManager::~GameManager()
 {
-    std::cout << "게임 매니저 종료...\n";
+    cout << "게임 매니저 종료...\n";
     delete Player;
 }
 
 void GameManager::BeginPlay()
 {
+    srand(static_cast<unsigned int>(time(0))); // ✅ 이거 추가!
+
     std::cout << "===== 대머리 나라에 오신 걸 환영합니다! =====\n";
     std::string Name;
     std::cout << "캐릭터 이름을 입력하세요: ";
@@ -82,6 +34,7 @@ void GameManager::BeginPlay()
     DisplayStatus(1);
 }
 
+
 void GameManager::Tick(float DeltaTime)
 {
     if (Player == nullptr || Player->GetHealth() <= 0 || Player->GetLevel() >= MaxLevel)
@@ -91,16 +44,16 @@ void GameManager::Tick(float DeltaTime)
         return;
     }
 
-    std::cout << "\n다음 행동을 선택하세요:\n";
-    std::cout << "1. 전투 시작\n";
-    std::cout << "2. 상점 방문\n";
-    std::cout << "3. 상태 보기\n";
-    std::cout << "4. 게임 종료\n";
-    std::cout << "입력 >> ";
+    cout << "\n다음 행동을 선택하세요:\n";
+    cout << "1. 전투 시작\n";
+    cout << "2. 상점 방문\n";
+    cout << "3. 상태 보기\n";
+    cout << "4. 게임 종료\n";
+    cout << "입력 >> ";
 
     int Choice;
-    std::cin >> Choice;
-    std::cin.ignore();
+    cin >> Choice;
+    cin.ignore();
 
     switch (Choice)
     {
@@ -117,9 +70,138 @@ void GameManager::Tick(float DeltaTime)
         bIsTickEnabled = false;
         break;
     default:
-        std::cout << "잘못된 선택입니다. 다시 입력하세요.\n";
+        cout << "잘못된 선택입니다. 다시 입력하세요.\n";
         break;
     }
 
     system("pause");
+}
+
+void GameManager::CreateCharacter(string Name)
+{
+    Player = new Character(Name);
+    Player->SetHealth(200);
+    Player->SetLevel(1);
+    Player->SetExperience(0);
+    Player->SetGold(0);
+}
+
+void GameManager::DisplayStatus(int Level)
+{
+    cout << "\n=== 현재 상태 ===\n";
+    cout << "이름: " << Player->GetName() << endl;
+    cout << "레벨: " << Player->GetLevel() << endl;
+    cout << "체력: " << Player->GetHealth() << endl;
+    cout << "경험치: " << Player->GetExperience() << " / " << MaxExperience << endl;
+    cout << "골드: " << Player->GetGold() << endl;
+    cout << "==============\n";
+}
+
+void GameManager::AddLog(string Message)
+{
+    GameLog.push_back(Message);
+    cout << "[로그] " << Message << endl;
+}
+
+void GameManager::ShowGameLog(std::string Message)
+{
+    std::cout << "[로그] " << Message << std::endl;
+}
+
+
+void GameManager::Battle(Monster* Enemy, Character* Player)
+{
+    std::cout << "\n=== 전투 시작! ===\n";
+    std::cout << ">> " << Enemy->getName() << " 등장!\n";  // ✅ 전투 시작 시 이름 출력
+
+    while (Player->GetHealth() > 0 && Enemy->getHealth() > 0)
+    {
+        int DamageToEnemy = Player->GetAttack();
+        Enemy->takeDamage(DamageToEnemy);
+        std::cout << ">> " << Enemy->getName() << "에게 " << DamageToEnemy << " 데미지를 입혔습니다. (남은 체력: " << Enemy->getHealth() << ")\n";
+
+        if (Enemy->getHealth() <= 0)
+        {
+            std::cout << ">> " << Enemy->getName() << " 처치 완료!\n";
+            AddLog("전투에서 승리했습니다.");
+            return;
+        }
+
+        int BeforeHP = Player->GetHealth();
+        Player->TakeDamage(Enemy->getAttack());
+        int AfterHP = Player->GetHealth();
+
+        if (BeforeHP == AfterHP)
+            std::cout << ">> 플레이어가 공격을 회피했습니다!\n";
+        else
+            std::cout << ">> 플레이어가 " << (BeforeHP - AfterHP) << " 데미지를 입었습니다. (남은 체력: " << AfterHP << ")\n";
+    }
+
+    if (Player->GetHealth() <= 0)
+    {
+        std::cout << ">> 당신은 쓰러졌습니다...\n";
+        AddLog("전투에서 패배했습니다.");
+    }
+}
+
+
+void GameManager::StartRandomBattle(Character* Player)
+{
+    Monster* Enemy = nullptr;
+    int Level = Player->GetLevel();
+
+    if (Level >= 10)
+    {
+        Enemy = new Black(Level);  // ✅ 깜댕이(보스)
+    }
+    else
+    {
+        int Random = rand() % 5;
+        switch (Random)
+        {
+        case 0: Enemy = new Yellow(Level); break;
+        case 1: Enemy = new White(Level);  break;
+        case 2: Enemy = new Green(Level);  break;
+        case 3: Enemy = new Blue(Level);   break;
+        case 4: Enemy = new Pink(Level);   break;
+        }
+    }
+
+    Battle(Enemy, Player);
+    delete Enemy;
+}
+
+
+
+void GameManager::EndGame()
+{
+    cout << "\n게임이 종료되었습니다!\n";
+    ShowGameLog("플레이어가 게임을 종료했습니다.");
+}
+
+void GameManager::VisitShop()
+{
+    cout << "\n=== 상점 ===\n";
+    cout << "1. 체력 회복 (20골드)\n";
+    cout << "2. 아무것도 안 함\n";
+    cout << "입력 >> ";
+
+    int Input;
+    cin >> Input;
+    cin.ignore();
+
+    if (Input == 1 && Player->GetGold() >= 20)
+    {
+        Player->SetHealth(100);
+        Player->SetGold(Player->GetGold() - 20);
+        AddLog("상점에서 체력을 회복했습니다.");
+    }
+    else if (Input == 1)
+    {
+        AddLog("골드가 부족합니다.");
+    }
+    else
+    {
+        AddLog("상점을 그냥 나왔습니다.");
+    }
 }

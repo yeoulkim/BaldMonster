@@ -1,9 +1,19 @@
 #include "Character.h"
+#include <iostream>
+#include <ctime> // for rand() and srand()
+#include <cstdlib>
 
-Character::Character(std::string Name, int Level, int Health, int Attack, int Experience)
-    : Name(Name), Level(Level), Health(Health), MaxHealth(Health), Attack(Attack), Experience(Experience)
+Character::Character(std::string Name, int Level, int Health, int Attack, int Experience, int Gold)
+    : Name(Name),
+    Level(Level),
+    Health(Health),
+    MaxHealth(Health),
+    Attack(Attack),
+    Experience(Experience),
+    Gold(Gold)
 {
 }
+
 
 std::string Character::GetName() const { return Name; }
 int Character::GetLevel() const { return Level; }
@@ -19,6 +29,28 @@ void Character::SetExperience(int NewExp) { Experience = NewExp; }
 
 void Character::TakeDamage(int Damage)
 {
+    if (rand() % 5 == 0)  // 20% 확률 회피
+    {
+        std::cout << "공격을 회피했습니다!\n";
+        return;
+    }
+
     Health -= Damage;
     if (Health < 0) Health = 0;
+}
+
+
+int Character::GetGold() const
+{
+    return Gold;
+}
+
+void Character::SetGold(int NewGold)
+{
+    Gold = NewGold;
+}
+
+Character::Character(std::string Name)
+    : Name(Name), Level(1), Health(200), MaxHealth(200), Attack(30), Experience(0), Gold(0)
+{
 }

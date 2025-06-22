@@ -22,7 +22,7 @@ public:
     void StartRandomBattle(Character* Player);
     void Battle(Monster* Enemy, Character* Player);
     void LevelUp();
-    void EndGame();  // 🔥 수정: endGame → EndGame
+    void EndGame(); 
     void VisitShop();
     void DisplayInventory(Character* Player);
     void ShowGameLog(std::string Message);

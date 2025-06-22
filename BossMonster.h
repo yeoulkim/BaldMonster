@@ -4,5 +4,5 @@
 class BossMonster : public Monster
 {
 public:
-    BossMonster(int Hp, int Atk);
+    BossMonster(std::string Name, int Health, int Attack);
 };
