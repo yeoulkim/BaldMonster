@@ -91,7 +91,7 @@ void GameManager::DisplayStatus(int Level)
     cout << "\n=== 현재 상태 ===\n";
     cout << "이름: " << Player->GetName() << endl;
     cout << "레벨: " << Player->GetLevel() << endl;
-    cout << "체력: " << Player->GetHealth() << endl;
+    cout << "체력: " << Player->GetHealth() << " / " << MaxHealth << endl;
     cout << "경험치: " << Player->GetExperience() << " / " << MaxExperience << endl;
     cout << "골드: " << Player->GetGold() << endl;
     cout << "==============\n";
@@ -123,7 +123,29 @@ void GameManager::Battle(Monster* Enemy, Character* Player)
         if (Enemy->getHealth() <= 0)
         {
             std::cout << ">> " << Enemy->getName() << " 처치 완료!\n";
+            // ✅ 골드 & 경험치 보상 추가
+            int ExpReward = 50;
+            int GoldReward = 10 + (rand() % 41);
+
+            int NewExp = Player->GetExperience() + ExpReward;
+            int NewGold = Player->GetGold() + GoldReward;
+
+            Player->SetExperience(NewExp);
+            Player->SetGold(NewGold);
+
+            std::cout << ">> 경험치 +" << ExpReward << ", 골드 +" << GoldReward << "\n";
             AddLog("전투에서 승리했습니다.");
+
+            // ✅ 레벨업 조건 검사
+            if (NewExp >= MaxExperience)
+            {
+                Player->SetExperience(0);
+                Player->SetLevel(Player->GetLevel() + 1);
+                Player->SetHealth(200);
+                std::cout << ">> 레벨업! 현재 레벨: " << Player->GetLevel() << "\n";
+                AddLog("레벨업 했습니다!");
+            }
+
             return;
         }
 
