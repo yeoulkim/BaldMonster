@@ -1,9 +1,11 @@
 #include "GameManager.h"
 
+GameManager* GManager = nullptr; // ✅ 전역 객체 정의
+
 int main()
 {
-    GameManager* Manager = new GameManager();   // 동적 생성
-    Manager->Run();  // 언리얼처럼 BeginPlay → Tick 반복 실행
-    delete Manager; // 메모리 정리
+    GManager = new GameManager();   // ✅ 전역 포인터로 생성
+    GManager->Run();                // ✅ GameManager 안에서 BeginPlay → Tick
+    delete GManager;                // ✅ 메모리 정리
     return 0;
 }

@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "BattleSystem.h"
 #include "Character.h"
 #include "YellowMonster.h"
 #include "BossMonster.h"
@@ -66,7 +67,11 @@ void Intro()
 
 void GameManager::BeginPlay()
 {
-    Intro();
+	if (bIsFirstPlay)   // bIsFristPlay가 true인 경우에만 Intro() 호출
+    {
+        Intro();
+		bIsFirstPlay = false;
+    }
 
     std::srand(static_cast<unsigned int>(std::time(0)));
 
@@ -86,7 +91,7 @@ void GameManager::Tick(float DeltaTime)
     if (Player == nullptr || Player->GetHealth() <= 0 || Player->GetLevel() >= MaxLevel)
     {
         bIsTickEnabled = false;
-        EndGame();
+        // EndGame();
         return;
     }
     std::cout << "\x1B[36m";
@@ -118,7 +123,8 @@ void GameManager::Tick(float DeltaTime)
         break;
     case 4:
         bIsTickEnabled = false;
-        std::cout << "\n당신은 머리를 숙였습니다... 전장을 떠납니다.\n";
+        std::cout << "\n당신은 도약 대신 후퇴를 택했다. 두피는 침묵했다.\n";
+        ShowGameLog("탈주 감지. 기록: '머리를 지키기엔 용기가 부족했다.'");
         Sleep(1500);
         return;
     default:
@@ -139,10 +145,20 @@ void GameManager::Run()
     }
 }
 
+// 재시작
+void GameManager::ResetGame()
+{
+    delete Player;
+    Player = nullptr;
+    bIsTickEnabled = true;
+
+    BeginPlay(); // 이름 입력부터 다시
+}
+
 void GameManager::CreateCharacter(std::string Name)
 {
     Player = new Character(Name);
-    Player->SetHealth(200);
+    Player->SetHealth(20);
     Player->SetLevel(1);
     Player->SetExperience(0);
     Player->SetGold(0);
@@ -167,7 +183,6 @@ void GameManager::DisplayStatus(int Level)
     std::cout << "└────────────────────────────────────────────────────────────┘\n";
 }
 
-
 void GameManager::AddLog(std::string Message)
 {
     GameLog.push_back(Message);
@@ -179,99 +194,26 @@ void GameManager::ShowGameLog(std::string Message)
     std::cout << "[로그] " << Message << std::endl;
 }
 
-void GameManager::Battle(MonsterBase* Enemy, Character* Player)
-{
-    std::cout << "\n[!] 작전 개시. 두피 전장에 진입한다.\n";
-    std::cout << ">> 목표 식별: " << Enemy->GetName() << "\n";
-    std::cout << Enemy->GetName() << ": \"" << Enemy->GetRandomLine() << "\"\n";
-
-    system("pause >nul");
-
-    while (Player->GetHealth() > 0 && Enemy->GetHealth() > 0)
-    {
-        int DamageToEnemy = Player->GetAttack();
-        Enemy->TakeDamage(DamageToEnemy);
-        std::cout << "[공격] " << Enemy->GetName() << "에게 " << DamageToEnemy << " 피해를 입혔다. (남은 체력: " << Enemy->GetHealth() << ")\n";
-
-        system("pause >nul");
-
-        if (Enemy->GetHealth() <= 0)
-        {
-            std::cout << "[V] " << Enemy->GetName() << " 제거 완료.\n";
-
-            int ExpReward = 20;
-            int GoldReward = 10 + (std::rand() % 41);
-
-            int NewExp = Player->GetExperience() + ExpReward;
-            Player->SetExperience(NewExp);
-            Player->SetGold(Player->GetGold() + GoldReward);
-
-            std::cout << "[보상] 모근 경험치 +" << ExpReward << " | 자금 +" << GoldReward << " G\n";
-            AddLog("작전 성공. 대머리 대상 제압 완료.");
-
-            // ✅ 경험치 체크는 누적 후 바로 NewExp 기준으로
-            if (NewExp >= MaxExperience)
-            {
-                Player->SetExperience(0);
-                Player->SetLevel(Player->GetLevel() + 1);
-                Player->SetHealth(200);
-
-                std::cout << "[↑] 레벨업! 현재 레벨: " << Player->GetLevel() << "\n";
-                AddLog("당신의 두피가 한층 단단해졌다.");
-                system("pause >nul");
-            }
-
-            return;
-        }
-
-        int BeforeHP = Player->GetHealth();
-        Player->TakeDamage(Enemy->GetAttack());
-        int AfterHP = Player->GetHealth();
-
-        if (BeforeHP == AfterHP)
-            std::cout << "[회피] 민첩한 빗질로 공격을 피했다.\n";
-        else
-            std::cout << "[피해] " << (BeforeHP - AfterHP) << " 데미지 입음. (잔여 체력: " << AfterHP << ")\n";
-
-        system("pause >nul");
-    }
-
-    if (Player->GetHealth() <= 0)
-    {
-        std::cout << "[X] 당신은 쓰러졌다. 머리카락을 지키지 못했다...\n";
-        AddLog("작전 실패. 두피가 무너졌다.");
-    }
-}
-
 void GameManager::StartRandomBattle(Character* Player)
 {
     MonsterBase* Enemy = nullptr;
     int Level = Player->GetLevel();
 
-    std::cout << "\n[!] 적 생체 반응 감지됨. 전투 모드로 전환한다.\n";
-
     if (Level >= 10)
-    {
-        std::cout << "[BOSS] 반사광이 급격히 강해진다... 진형형님이 나타났다.\n";
         Enemy = new BossMonster(Level);
-    }
     else
-    {
-        Enemy = new YellowMonster(Level); // 테스트용 1체
-        std::cout << "[적 등장] 스캔 완료: 야생의 노란 대머리와 조우했다.\n";
-        system("pause >nul");
-    }
+        Enemy = new YellowMonster(Level); // 예시 몬스터
 
-    Battle(Enemy, Player);
+    BattleSystem::StartBattle(Player, Enemy, MaxExperience);
     delete Enemy;
 }
 
-
-void GameManager::EndGame()
-{
-    std::cout << "\n당신은 도약 대신 후퇴를 택했다. 두피는 침묵했다.\n"; 
-    ShowGameLog("탈주 감지. 기록: '머리를 지키기엔 용기가 부족했다.'");
-}
+// 수정!!!!!!!!!!!!!!!
+//void GameManager::EndGame()
+//{
+//    std::cout << "\n당신은 도약 대신 후퇴를 택했다. 두피는 침묵했다.\n"; 
+//    ShowGameLog("탈주 감지. 기록: '머리를 지키기엔 용기가 부족했다.'");
+//}
 
 
 void GameManager::VisitShop()

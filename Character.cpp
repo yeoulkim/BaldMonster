@@ -51,6 +51,6 @@ void Character::SetGold(int NewGold)
 }
 
 Character::Character(std::string Name)
-    : Name(Name), Level(1), Health(200), MaxHealth(200), Attack(30), Experience(0), Gold(0)
+    : Name(Name), Level(1), Health(20), MaxHealth(20), Attack(30), Experience(0), Gold(0)
 {
 }
