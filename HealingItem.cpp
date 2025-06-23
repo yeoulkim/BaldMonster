@@ -1,9 +1,9 @@
-#include "HealingItem.h"
+ï»¿#include "HealingItem.h"
 #include <iostream>
 
 void HealingItem::Use(Character* Target)
 {
-    std::cout << Name << " »ç¿ë!" << std::endl;
+    std::cout << Name << " ì‚¬ìš©!" << std::endl;
     Target->SetHealth(Target->GetHealth() + HealAmount);
 }
 

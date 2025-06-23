@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -9,7 +9,7 @@ public:
     UObjectBase();
     virtual ~UObjectBase();
 
-    void Run();  // BeginPlay -> Tick �ݺ�
+    void Run();  // BeginPlay -> Tick 반복
 
 protected:
     bool bIsTickEnabled;

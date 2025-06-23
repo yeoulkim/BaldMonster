@@ -1,4 +1,4 @@
-#include "Character.h"
+ï»¿#include "Character.h"
 #include <iostream>
 
 Character::Character(std::string Name, int Health, int Attack, int Level)
@@ -18,7 +18,7 @@ Character::Character(std::string Name, int Health, int Attack, int Level)
 void Character::AddItem(Item* NewItem)
 {
     Inventory.push_back(NewItem);
-    std::cout << NewItem->GetName() << "À»(¸¦) È¹µæÇß½À´Ï´Ù!" << std::endl;
+    std::cout << NewItem->GetName() << "ì„(ë¥¼) íšë“í–ˆìŠµë‹ˆë‹¤!" << std::endl;
 }
 
 void Character::UseItem(const std::string& ItemName)
@@ -27,18 +27,18 @@ void Character::UseItem(const std::string& ItemName)
     {
         if ((*It)->GetName() == ItemName)
         {
-            (*It)->Use(this);       // Character* Àü´Þ
-            delete* It;             // ¸Þ¸ð¸® ÇØÁ¦
+            (*It)->Use(this);       // Character* ì „ë‹¬
+            delete* It;             // ë©”ëª¨ë¦¬ í•´ì œ
             Inventory.erase(It);
             return;
         }
     }
-    std::cout << ItemName << " ¾ÆÀÌÅÛÀÌ ¾ø½À´Ï´Ù!" << std::endl;
+    std::cout << ItemName << " ì•„ì´í…œì´ ì—†ìŠµë‹ˆë‹¤!" << std::endl;
 }
 
 void Character::DisplayInventory()
 {
-    std::cout << "===== ÀÎº¥Åä¸® =====" << std::endl;
+    std::cout << "===== ì¸ë²¤í† ë¦¬ =====" << std::endl;
     for (auto* Item : Inventory)
     {
         std::cout << "- " << Item->GetName() << std::endl;
@@ -54,7 +54,7 @@ std::vector<Item*> Character::GetInventory() const
 void Character::GainExperience(int Amount)
 {
     Experience += Amount;
-    std::cout << Amount << " °æÇèÄ¡¸¦ È¹µæÇß½À´Ï´Ù!" << std::endl;
+    std::cout << Amount << " ê²½í—˜ì¹˜ë¥¼ íšë“í–ˆìŠµë‹ˆë‹¤!" << std::endl;
     while (Experience >= MaxExperience && Level < MaxLevel)
     {
         Experience -= MaxExperience;
@@ -62,11 +62,11 @@ void Character::GainExperience(int Amount)
         MaxHealth += 20;
         Health = MaxHealth;
         Attack += 5;
-        std::cout << "·¹º§ ¾÷! ÇöÀç ·¹º§: " << Level << std::endl;
+        std::cout << "ë ˆë²¨ ì—…! í˜„ìž¬ ë ˆë²¨: " << Level << std::endl;
     }
 }
 
-// Getter ÇÔ¼ö
+// Getter í•¨ìˆ˜
 std::string Character::GetName() const { return Name; }
 int Character::GetHealth() const { return Health; }
 int Character::GetMaxHealth() const { return MaxHealth; }
@@ -76,7 +76,7 @@ int Character::GetGold() const { return Gold; }
 int Character::GetExperience() const { return Experience; }
 
 
-// Setter ÇÔ¼ö
+// Setter í•¨ìˆ˜
 void Character::SetExperience(int NewExp) { Experience = NewExp; }
 void Character::SetGold(int NewGold) { Gold = NewGold; }
 void Character::SetHealth(int NewHealth) { Health = NewHealth; }

@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 
-class Character;  // Àü¹æ ¼±¾ğ
+class Character;  // ì „ë°© ì„ ì–¸
 
 class Item
 {
 public:
     virtual void Use(Character* Target) = 0;
     virtual std::string GetName() const = 0;
-    virtual ~Item() {}  // °¡»ó ¼Ò¸êÀÚ
+    virtual ~Item() {}  // ê°€ìƒ ì†Œë©¸ì
 };

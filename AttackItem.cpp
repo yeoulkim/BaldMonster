@@ -1,11 +1,11 @@
-#include "AttackItem.h"
+ï»¿#include "AttackItem.h"
 #include <iostream>
 
 using namespace std;
 
 void AttackItem::Use(Character* Target)
 {
-    cout << Name << " »ç¿ë! »ó´ë¿¡°Ô " << Damage << " ÇÇÇØ¸¦ ÀÔÇû½À´Ï´Ù!" << endl;
+    cout << Name << " ì‚¬ìš©! ìƒëŒ€ì—ê²Œ " << Damage << " í”¼í•´ë¥¼ ìž…í˜”ìŠµë‹ˆë‹¤!" << endl;
     Target->TakeDamage(Damage);
 }
 

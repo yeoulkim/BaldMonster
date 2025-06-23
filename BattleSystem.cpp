@@ -1,40 +1,40 @@
-#include "BattleSystem.h"
+ï»¿#include "BattleSystem.h"
 #include "GameManager.h"
 #include <iostream>
 #include <cstdlib>
 #include <windows.h>
 
-extern GameManager* GManager;   // GameManager¿¡ Á¢±ÙÇÏ±â À§ÇØ Àü¿ª Æ÷ÀÎÅÍ »ç¿ë -> ¹èÆ²½Ã½ºÅÛ ¾È¿¡¼­µµ ResetGame() È£Ãâ °¡´É
+extern GameManager* GManager;   // GameManagerì— ì ‘ê·¼í•˜ê¸° ìœ„í•´ ì „ì—­ í¬ì¸í„° ì‚¬ìš© -> ë°°í‹€ì‹œìŠ¤í…œ ì•ˆì—ì„œë„ ResetGame() í˜¸ì¶œ ê°€ëŠ¥
 
 void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExperience)
 {
-    std::cout << "\n[!] ÀÛÀü °³½Ã. µÎÇÇ ÀüÀå¿¡ ÁøÀÔÇÑ´Ù.\n";
-    std::cout << ">> ¸ñÇ¥ ½Äº°: " << Enemy->GetName() << "\n";
+    std::cout << "\n[!] ì‘ì „ ê°œì‹œ. ë‘í”¼ ì „ì¥ì— ì§„ì…í•œë‹¤.\n";
+    std::cout << ">> ëª©í‘œ ì‹ë³„: " << Enemy->GetName() << "\n";
     std::cout << Enemy->GetName() << ": \"" << Enemy->GetRandomLine() << "\"\n";
     system("pause >nul");
     while (Player->GetHealth() > 0 && Enemy->GetHealth() > 0)
     {
         int DamageToEnemy = Player->GetAttack();
         Enemy->TakeDamage(DamageToEnemy);
-        std::cout << "[°ø°İ] " << Enemy->GetName() << "¿¡°Ô " << DamageToEnemy
-            << " ÇÇÇØ¸¦ ÀÔÇû´Ù. (³²Àº Ã¼·Â: " << Enemy->GetHealth() << ")\n";
+        std::cout << "[ê³µê²©] " << Enemy->GetName() << "ì—ê²Œ " << DamageToEnemy
+            << " í”¼í•´ë¥¼ ì…í˜”ë‹¤. (ë‚¨ì€ ì²´ë ¥: " << Enemy->GetHealth() << ")\n";
         system("pause >nul");
         if (Enemy->GetHealth() <= 0)
         {
-            std::cout << "[V] " << Enemy->GetName() << " Á¦°Å ¿Ï·á.\n";
+            std::cout << "[V] " << Enemy->GetName() << " ì œê±° ì™„ë£Œ.\n";
             int ExpReward = 20;
             int GoldReward = 10 + (rand() % 41);
             int NewExp = Player->GetExperience() + ExpReward;
             Player->SetExperience(NewExp);
             Player->SetGold(Player->GetGold() + GoldReward);
-            std::cout << "[º¸»ó] ¸ğ±Ù °æÇèÄ¡ +" << ExpReward << " | ÀÚ±İ +" << GoldReward << " G\n";
+            std::cout << "[ë³´ìƒ] ëª¨ê·¼ ê²½í—˜ì¹˜ +" << ExpReward << " | ìê¸ˆ +" << GoldReward << " G\n";
             if (NewExp >= MaxExperience)
             {
                 Player->SetExperience(0);
                 Player->SetLevel(Player->GetLevel() + 1);
                 Player->SetHealth(200);
-                std::cout << "[¡è] ·¹º§¾÷! ÇöÀç ·¹º§: " << Player->GetLevel() << "\n";
-                std::cout << "[=] ´ç½ÅÀÇ µÎÇÇ°¡ ÇÑÃş ´õ ´Ü´ÜÇØÁ³´Ù.\n";
+                std::cout << "[â†‘] ë ˆë²¨ì—…! í˜„ì¬ ë ˆë²¨: " << Player->GetLevel() << "\n";
+                std::cout << "[=] ë‹¹ì‹ ì˜ ë‘í”¼ê°€ í•œì¸µ ë” ë‹¨ë‹¨í•´ì¡Œë‹¤.\n";
                 system("pause >nul");
             }
             return;
@@ -43,23 +43,23 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
         Player->TakeDamage(Enemy->GetAttack());
         int AfterHP = Player->GetHealth();
         if (BeforeHP == AfterHP)
-            std::cout << "[È¸ÇÇ] ¹ÎÃ¸ÇÑ ºøÁú·Î °ø°İÀ» ÇÇÇß´Ù.\n";
+            std::cout << "[íšŒí”¼] ë¯¼ì²©í•œ ë¹—ì§ˆë¡œ ê³µê²©ì„ í”¼í–ˆë‹¤.\n";
         else
-            std::cout << "[ÇÇÇØ] " << (BeforeHP - AfterHP)
-            << " µ¥¹ÌÁö ÀÔÀ½. (ÀÜ¿© Ã¼·Â: " << AfterHP << ")\n";
+            std::cout << "[í”¼í•´] " << (BeforeHP - AfterHP)
+            << " ë°ë¯¸ì§€ ì…ìŒ. (ì”ì—¬ ì²´ë ¥: " << AfterHP << ")\n";
         system("pause >nul");
     }
 
-    // °ÔÀÓ ¿À¹ö Ã³¸®, Àç½ÃÀÛ
+    // ê²Œì„ ì˜¤ë²„ ì²˜ë¦¬, ì¬ì‹œì‘
     if (Player->GetHealth() <= 0)
     {
-        std::cout << "[GAME OVER] ´ç½ÅÀº ¾²·¯Á³´Ù. ¸Ó¸®Ä«¶ôÀ» ÁöÅ°Áö ¸øÇß´Ù...\n";
+        std::cout << "[GAME OVER] ë‹¹ì‹ ì€ ì“°ëŸ¬ì¡Œë‹¤. ë¨¸ë¦¬ì¹´ë½ì„ ì§€í‚¤ì§€ ëª»í–ˆë‹¤...\n";
         Sleep(1000);
 
         std::vector<std::string> GameOverLines = {
-            "¸Ó¸Ó¸® ±º´ÜÀÇ ¹İÂ¦ÀÓ ¾Õ¿¡¡¦ °á±¹ ´«À» °¨¾Ò´Ù.",
-            "´ç½ÅÀÇ µÎÇÇ°¡ µå·¯³µ½À´Ï´Ù.",
-            "±× ´©±¸µµ ¸Ó¸Ó¸® ±º´ÜÀ» ¸·À» ¼ö ¾ø¾ú´Ù¡¦ ´ç½Åµµ."
+            "ë¨¸ë¨¸ë¦¬ êµ°ë‹¨ì˜ ë°˜ì§ì„ ì•ì—â€¦ ê²°êµ­ ëˆˆì„ ê°ì•˜ë‹¤.",
+            "ë‹¹ì‹ ì˜ ë‘í”¼ê°€ ë“œëŸ¬ë‚¬ìŠµë‹ˆë‹¤.",
+            "ê·¸ ëˆ„êµ¬ë„ ë¨¸ë¨¸ë¦¬ êµ°ë‹¨ì„ ë§‰ì„ ìˆ˜ ì—†ì—ˆë‹¤â€¦ ë‹¹ì‹ ë„."
         };
 
         for (const std::string& line : GameOverLines)
@@ -68,18 +68,18 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
             Sleep(1500);
         }
 
-        std::cout << "\n¸Ó¸®Ä«¶ôÀº ¸ğµÎ ºüÁ³½À´Ï´Ù.\n";
+        std::cout << "\në¨¸ë¦¬ì¹´ë½ì€ ëª¨ë‘ ë¹ ì¡ŒìŠµë‹ˆë‹¤.\n";
         Sleep(1200);
-        std::cout << "ÇÏÁö¸¸, ´Ù½Ã ÀÚ¶ö ¼öµµ ÀÖ½À´Ï´Ù...\n";
+        std::cout << "í•˜ì§€ë§Œ, ë‹¤ì‹œ ìë„ ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤...\n";
         Sleep(1500);
 
-        std::cout << "\n´ç½ÅÀº ¾î¶»°Ô ÇÏ½Ã°Ú½À´Ï±î?\n";
+        std::cout << "\në‹¹ì‹ ì€ ì–´ë–»ê²Œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n";
         Sleep(1000);
 
-        std::cout << "\n[1] ÀÚ¶ó³ª¶ó ¸Ó¸®¸Ó¸®~!\n";
-        std::cout << "[2] »ç¶óÁ®¶ó ¸Ó¸®¸Ó¸®...\n";
+        std::cout << "\n[1] ìë¼ë‚˜ë¼ ë¨¸ë¦¬ë¨¸ë¦¬~!\n";
+        std::cout << "[2] ì‚¬ë¼ì ¸ë¼ ë¨¸ë¦¬ë¨¸ë¦¬...\n";
 
-        std::cout << "\nÀÔ·Â >> ";
+        std::cout << "\nì…ë ¥ >> ";
         int choice;
         std::cin >> choice;
         std::cin.ignore();
@@ -87,19 +87,19 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
         if (choice == 1)
         {
             system("cls");
-            std::cout << "\"´Ù½Ã ÀÚ¶ó°Ô ÇÏÀÚ, Èñ¸Á.\"\n";
+            std::cout << "\"ë‹¤ì‹œ ìë¼ê²Œ í•˜ì, í¬ë§.\"\n";
             Sleep(1500);
-            GManager->ResetGame(); // ÀÌ¸§ ÀÔ·ÂºÎÅÍ Àç½ÃÀÛ
+            GManager->ResetGame(); // ì´ë¦„ ì…ë ¥ë¶€í„° ì¬ì‹œì‘
         }
         else
         {
             system("cls");
 
             std::vector<std::string> ExitLines = {
-                "ÀÌÁ¦... ³ªµµ ±×µé°ú °°Àº ºûÀ» ºñÃá´Ù.",
-                "¸Ó¸Ó¸®´Â¡¦ »ı°¢º¸´Ù ³ª»ÚÁö ¾Ê¾Ò´Ù.",
-                "ÀÌÁ¨... ºøµµ ÇÊ¿ä ¾ø´Ù.",
-                "¸Ó¸®Ä«¶ôÀ» ÀÒ°í, Æò¿ÂÀ» ¾ò¾ú´Ù."
+                "ì´ì œ... ë‚˜ë„ ê·¸ë“¤ê³¼ ê°™ì€ ë¹›ì„ ë¹„ì¶˜ë‹¤.",
+                "ë¨¸ë¨¸ë¦¬ëŠ”â€¦ ìƒê°ë³´ë‹¤ ë‚˜ì˜ì§€ ì•Šì•˜ë‹¤.",
+                "ì´ì  ... ë¹—ë„ í•„ìš” ì—†ë‹¤.",
+                "ë¨¸ë¦¬ì¹´ë½ì„ ìƒê³ , í‰ì˜¨ì„ ì–»ì—ˆë‹¤."
             };
 
             for (const std::string& line : ExitLines)
@@ -108,8 +108,8 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
                 Sleep(1200);
             }
 
-            std::cout << "\n¸Ó¸Ó¸® ¿¬ÇÕ¿¡ °¡ÀÔÇÏ¼Ì½À´Ï´Ù. ¹İÂ¦ÀÌ´Â ¾Õ³¯À» ±â¿øÇÕ´Ï´Ù.\n";
-            exit(0); // ¿ÏÀü Á¾·á
+            std::cout << "\në¨¸ë¨¸ë¦¬ ì—°í•©ì— ê°€ì…í•˜ì…¨ìŠµë‹ˆë‹¤. ë°˜ì§ì´ëŠ” ì•ë‚ ì„ ê¸°ì›í•©ë‹ˆë‹¤.\n";
+            exit(0); // ì™„ì „ ì¢…ë£Œ
         }
     }
 

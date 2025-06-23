@@ -1,4 +1,4 @@
-#include "UObjectBase.h"
+ï»¿#include "UObjectBase.h"
 
 UObjectBase::UObjectBase()
 {
@@ -25,5 +25,5 @@ void UObjectBase::BeginPlay()
 
 void UObjectBase::Tick(float DeltaTime)
 {
-    std::cout << "[UObjectBase] Tick: " << DeltaTime << "ÃÊ °æ°ú\n";
+    std::cout << "[UObjectBase] Tick: " << DeltaTime << "ì´ˆ ê²½ê³¼\n";
 }
