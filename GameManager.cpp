@@ -11,12 +11,12 @@ using namespace std;
 
 GameManager::GameManager()
 {
-    cout << "게임 매니저 초기화...\n";
+   // cout << "게임 매니저 초기화...\n";  - 그림 대체
 }
 
 GameManager::~GameManager()
 {
-    cout << "게임 매니저 종료...\n";
+   // cout << "게임 매니저 종료...\n";
     delete Player;
 }
 
@@ -68,7 +68,7 @@ void GameManager::Tick(float DeltaTime)
         break;
     case 4:
         bIsTickEnabled = false;
-        break;
+        return;
     default:
         cout << "잘못된 선택입니다. 다시 입력하세요.\n";
         break;
@@ -112,32 +112,33 @@ void GameManager::ShowGameLog(std::string Message)
 void GameManager::Battle(Monster* Enemy, Character* Player)
 {
     std::cout << "\n=== 전투 시작! ===\n";
-    std::cout << ">> " << Enemy->getName() << " 등장!\n";  // ✅ 전투 시작 시 이름 출력
+    std::cout << ">> " << Enemy->getName() << " 등장!\n";
+    system("pause >nul"); // ✅ 스페이스바 대기
 
     while (Player->GetHealth() > 0 && Enemy->getHealth() > 0)
     {
+        // 플레이어가 몬스터 공격
         int DamageToEnemy = Player->GetAttack();
         Enemy->takeDamage(DamageToEnemy);
         std::cout << ">> " << Enemy->getName() << "에게 " << DamageToEnemy << " 데미지를 입혔습니다. (남은 체력: " << Enemy->getHealth() << ")\n";
+        system("pause >nul"); // ✅ 스페이스바 대기
 
+        // 몬스터 죽었는지 확인
         if (Enemy->getHealth() <= 0)
         {
             std::cout << ">> " << Enemy->getName() << " 처치 완료!\n";
-            // ✅ 골드 & 경험치 보상 추가
-            int ExpReward = 50;
-            int GoldReward = 10 + (rand() % 41);
 
-            int NewExp = Player->GetExperience() + ExpReward;
-            int NewGold = Player->GetGold() + GoldReward;
+            int ExpReward = 20;
+            int GoldReward = 10 + (rand() % 41); // 10~50 골드 랜덤
 
-            Player->SetExperience(NewExp);
-            Player->SetGold(NewGold);
+            Player->SetExperience(Player->GetExperience() + ExpReward);
+            Player->SetGold(Player->GetGold() + GoldReward);
 
             std::cout << ">> 경험치 +" << ExpReward << ", 골드 +" << GoldReward << "\n";
+
             AddLog("전투에서 승리했습니다.");
 
-            // ✅ 레벨업 조건 검사
-            if (NewExp >= MaxExperience)
+            if (Player->GetExperience() >= MaxExperience)
             {
                 Player->SetExperience(0);
                 Player->SetLevel(Player->GetLevel() + 1);
@@ -149,6 +150,7 @@ void GameManager::Battle(Monster* Enemy, Character* Player)
             return;
         }
 
+        // 몬스터가 플레이어 공격
         int BeforeHP = Player->GetHealth();
         Player->TakeDamage(Enemy->getAttack());
         int AfterHP = Player->GetHealth();
@@ -157,6 +159,8 @@ void GameManager::Battle(Monster* Enemy, Character* Player)
             std::cout << ">> 플레이어가 공격을 회피했습니다!\n";
         else
             std::cout << ">> 플레이어가 " << (BeforeHP - AfterHP) << " 데미지를 입었습니다. (남은 체력: " << AfterHP << ")\n";
+
+        system("pause >nul"); // ✅ 스페이스바 대기
     }
 
     if (Player->GetHealth() <= 0)
@@ -165,6 +169,7 @@ void GameManager::Battle(Monster* Enemy, Character* Player)
         AddLog("전투에서 패배했습니다.");
     }
 }
+
 
 
 void GameManager::StartRandomBattle(Character* Player)
