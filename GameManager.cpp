@@ -1,15 +1,15 @@
 #include "GameManager.h"
-#include "BattleSystem.h"
-#include "Character.h"
-#include "YellowMonster.h"
 #include "BossMonster.h"
+#include "YellowMonster.h"
+// #include "BattleSystem.h"
+// #include "Character.h"
 
 #include <iostream>
 #include <windows.h>
 #include <iomanip>
 #include <sstream>
-#include <cstdlib>
 #include <ctime>
+#include <cstdlib>
 
 GameManager::GameManager()
 {
@@ -157,12 +157,13 @@ void GameManager::ResetGame()
 
 void GameManager::CreateCharacter(std::string Name)
 {
-    Player = new Character(Name);
-    Player->SetHealth(20);
+    Player = new Character(Name, 100, 20, 1);  // ✅ 예시값 넣어줌
+    Player->SetHealth(100);
     Player->SetLevel(1);
     Player->SetExperience(0);
     Player->SetGold(0);
 }
+
 
 void GameManager::DisplayStatus(int Level)
 {
@@ -208,7 +209,7 @@ void GameManager::StartRandomBattle(Character* Player)
     delete Enemy;
 }
 
-// 수정!!!!!!!!!!!!!!!
+// 4번 선택지로 수정
 //void GameManager::EndGame()
 //{
 //    std::cout << "\n당신은 도약 대신 후퇴를 택했다. 두피는 침묵했다.\n"; 

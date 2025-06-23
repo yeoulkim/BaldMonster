@@ -2,8 +2,11 @@
 
 #include "UObjectBase.h"
 #include "Character.h"
-#include "YellowMonster.h"
-#include "BossMonster.h"
+#include "BattleSystem.h"
+#include "MonsterBase.h"
+// #include "YellowMonster.h"
+// #include "BossMonster.h"
+// #include "Shop.h"
 #include <string>
 #include <vector>
 
@@ -21,12 +24,12 @@ public:
     void DisplayStatus(int Level);
     void AddLog(std::string Message);
     void StartRandomBattle(Character* Player);
-    void Battle(MonsterBase* Enemy, Character* Player);
     void LevelUp();
-    void EndGame(); 
+    // void EndGame(); 
     void VisitShop();
     void DisplayInventory(Character* Player);
     void ShowGameLog(std::string Message);
+    void ResetGame();
 
 private:
     Character* Player = nullptr;
@@ -36,4 +39,5 @@ private:
     int MaxLevel = 10;
     int InventorySize = 0;
     std::vector<std::string> GameLog;
+    bool bIsFirstPlay = true;
 };

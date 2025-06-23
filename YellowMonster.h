@@ -1,4 +1,5 @@
 #pragma once
+
 #include "MonsterBase.h"
 
 class YellowMonster : public MonsterBase
