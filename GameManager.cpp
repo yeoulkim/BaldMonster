@@ -157,8 +157,8 @@ void GameManager::ResetGame()
 
 void GameManager::CreateCharacter(std::string Name)
 {
-    Player = new Character(Name, 100, 20, 1);  // ✅ 예시값 넣어줌
-    Player->SetHealth(100);
+    Player = new Character(Name, 200, 20, 1);  // ✅ 예시값 넣어줌
+    //Player->SetHealth(100);
     Player->SetLevel(1);
     Player->SetExperience(0);
     Player->SetGold(0);
@@ -171,7 +171,7 @@ void GameManager::DisplayStatus(int Level)
 
     std::string name = Player->GetName();
     std::string level = "Lv." + std::to_string(Player->GetLevel());
-    std::string hp = std::to_string(Player->GetHealth()) + " / " + std::to_string(MaxHealth);
+    std::string hp = std::to_string(Player->GetHealth()) + " / " + std::to_string(Player->GetMaxHealth());
     std::string exp = std::to_string(Player->GetExperience()) + " / " + std::to_string(MaxExperience);
     std::string gold = std::to_string(Player->GetGold()) + " G";
 
@@ -230,7 +230,7 @@ void GameManager::VisitShop()
 
     if (Input == 1 && Player->GetGold() >= 20)
     {
-        Player->SetHealth(100);
+        Player->SetHealth(Player->GetMaxHealth());  // ✅ 정확한 회복
         Player->SetGold(Player->GetGold() - 20);
         AddLog("상점에서 체력을 회복했습니다.");
     }

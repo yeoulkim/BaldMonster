@@ -34,7 +34,7 @@ public:
 private:
     Character* Player = nullptr;
     int Gold = 0;
-	int MaxHealth = 200;
+	//int MaxHealth = 200;
     int MaxExperience = 100;
     int MaxLevel = 10;
     int InventorySize = 0;

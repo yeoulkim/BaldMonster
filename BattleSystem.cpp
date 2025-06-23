@@ -22,13 +22,19 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
         if (Enemy->GetHealth() <= 0)
         {
             std::cout << "[V] " << Enemy->GetName() << " 제거 완료.\n";
+
             int ExpReward = 20;
             int GoldReward = 10 + (rand() % 41);
-            int NewExp = Player->GetExperience() + ExpReward;
-            Player->SetExperience(NewExp);
+
+            Player->GainExperience(ExpReward);  // ✅ 레벨업 처리 포함
+
             Player->SetGold(Player->GetGold() + GoldReward);
             std::cout << "[보상] 모근 경험치 +" << ExpReward << " | 자금 +" << GoldReward << " G\n";
-            if (NewExp >= MaxExperience)
+
+            system("pause >nul");
+            return;
+        
+            /*if (NewExp >= MaxExperience)
             {
                 Player->SetExperience(0);
                 Player->SetLevel(Player->GetLevel() + 1);
@@ -36,7 +42,7 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
                 std::cout << "[↑] 레벨업! 현재 레벨: " << Player->GetLevel() << "\n";
                 std::cout << "[=] 당신의 두피가 한층 더 단단해졌다.\n";
                 system("pause >nul");
-            }
+            }*/
             return;
         }
         int BeforeHP = Player->GetHealth();
