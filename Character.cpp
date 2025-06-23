@@ -60,7 +60,7 @@ void Character::GainExperience(int Amount)
         Experience -= MaxExperience;
         Level++;
         MaxHealth += 20;
-        Health = MaxHealth;
+		Health = MaxHealth; // 레벨 업 시 체력 회복
         Attack += 5;
         std::cout << "레벨 업! 현재 레벨: " << Level << std::endl;
     }
