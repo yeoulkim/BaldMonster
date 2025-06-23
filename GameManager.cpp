@@ -202,20 +202,23 @@ void GameManager::Battle(MonsterBase* Enemy, Character* Player)
             int ExpReward = 20;
             int GoldReward = 10 + (std::rand() % 41);
 
-            Player->SetExperience(Player->GetExperience() + ExpReward);
+            int NewExp = Player->GetExperience() + ExpReward;
+            Player->SetExperience(NewExp);
             Player->SetGold(Player->GetGold() + GoldReward);
 
             std::cout << "[보상] 모근 경험치 +" << ExpReward << " | 자금 +" << GoldReward << " G\n";
-
             AddLog("작전 성공. 대머리 대상 제압 완료.");
 
-            if (Player->GetExperience() >= MaxExperience)
+            // ✅ 경험치 체크는 누적 후 바로 NewExp 기준으로
+            if (NewExp >= MaxExperience)
             {
                 Player->SetExperience(0);
                 Player->SetLevel(Player->GetLevel() + 1);
                 Player->SetHealth(200);
+
                 std::cout << "[↑] 레벨업! 현재 레벨: " << Player->GetLevel() << "\n";
                 AddLog("당신의 두피가 한층 단단해졌다.");
+                system("pause >nul");
             }
 
             return;
@@ -256,6 +259,7 @@ void GameManager::StartRandomBattle(Character* Player)
     {
         Enemy = new YellowMonster(Level); // 테스트용 1체
         std::cout << "[적 등장] 스캔 완료: 야생의 노란 대머리와 조우했다.\n";
+        system("pause >nul");
     }
 
     Battle(Enemy, Player);
