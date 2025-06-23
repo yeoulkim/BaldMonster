@@ -2,7 +2,7 @@
 
 #include "UObjectBase.h"
 #include "Character.h"
-#include "Monster.h"
+#include "YellowMonster.h"
 #include "BossMonster.h"
 #include <string>
 #include <vector>
@@ -15,12 +15,13 @@ public:
 
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaTime) override;
+    void Run();
 
     void CreateCharacter(std::string Name);
     void DisplayStatus(int Level);
     void AddLog(std::string Message);
     void StartRandomBattle(Character* Player);
-    void Battle(Monster* Enemy, Character* Player);
+    void Battle(MonsterBase* Enemy, Character* Player);
     void LevelUp();
     void EndGame(); 
     void VisitShop();

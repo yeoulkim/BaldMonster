@@ -1,36 +1,82 @@
 #include "GameManager.h"
 #include "Character.h"
-#include "Monster.h"
+#include "YellowMonster.h"
 #include "BossMonster.h"
 
 #include <iostream>
+#include <windows.h>
+#include <iomanip>
+#include <sstream>
 #include <cstdlib>
 #include <ctime>
 
-using namespace std;
-
 GameManager::GameManager()
 {
-   // cout << "게임 매니저 초기화...\n";  - 그림 대체
 }
 
 GameManager::~GameManager()
 {
-   // cout << "게임 매니저 종료...\n";
     delete Player;
+}
+void Intro()
+{
+    std::cout << "\n";
+    Sleep(1000);
+
+    std::cout << "> \"...난 아직 탈모약을 믿는다.\"\n\n";
+    Sleep(1500);
+
+    std::cout << "> \"머리카락을 되찾기 위해, 난 그들을 벗겨버릴 것이다.\"\n\n";
+    Sleep(1500);
+
+    std::cout << "> \"난 마지막 모발 보유자다…\n";
+    std::cout << "내 머리를 건들면… 가만 안 둬.\"\n\n";
+    Sleep(2000);
+
+    std::cout << "지금,\n\n";
+    Sleep(1000);
+
+    std::cout << "머머리 군단에 맞서는\n\n";
+    Sleep(1000);
+
+    std::cout << "최후의 모발 전쟁이 시작된다.\n\n";
+    Sleep(2000);
+
+    std::cout << "========================================\n";
+    std::cout << "머리카락을 걸고 싸우시겠습니까? [Y/N]: ";
+
+    char Input;
+    std::cin >> Input;
+    std::cin.ignore();
+
+    if (Input == 'Y' || Input == 'y')
+    {
+        std::cout << "\n모근을 다잡고, 전장으로 나아갑니다...\n";
+        Sleep(1500);
+    }
+    else
+    {
+        std::cout << "\n당신은... 민둥산의 길을 택했습니다.\n";
+        Sleep(1500);
+        std::cout << "이제, 당신도 머머리입니다.\n";
+        Sleep(1500);
+        exit(0);
+    }
 }
 
 void GameManager::BeginPlay()
 {
-    srand(static_cast<unsigned int>(time(0))); // ✅ 이거 추가!
+    Intro();
 
-    std::cout << "===== 대머리 나라에 오신 걸 환영합니다! =====\n";
+    std::srand(static_cast<unsigned int>(std::time(0)));
+
+    std::cout << "\n===== [ 대머리 연합군 등록소 ] =====\n";
     std::string Name;
-    std::cout << "캐릭터 이름을 입력하세요: ";
+    std::cout << "머리카락 보유자여, 이름을 남기시오: ";
     std::getline(std::cin, Name);
 
     CreateCharacter(Name);
-    AddLog("캐릭터 생성 완료.");
+    AddLog("등록 완료. 당신은 이제 머리카락을 지킬 준비가 되었다.");
     DisplayStatus(1);
 }
 
@@ -43,17 +89,21 @@ void GameManager::Tick(float DeltaTime)
         EndGame();
         return;
     }
-
-    cout << "\n다음 행동을 선택하세요:\n";
-    cout << "1. 전투 시작\n";
-    cout << "2. 상점 방문\n";
-    cout << "3. 상태 보기\n";
-    cout << "4. 게임 종료\n";
-    cout << "입력 >> ";
+    std::cout << "\x1B[36m";
+    std::cout << "\n[O] 당신의 모근은 아직 버티고 있다.\n";
+    std::cout << "다음 작전을 선택한다.\n";
+    std::cout << "----------------------------------------\n";
+    std::cout << "[1] 대머리 군단과 교전한다.\n";
+    std::cout << "[2] 탈모약 상점에 방문한다.\n";
+    std::cout << "[3] 남아 있는 모발 상태를 진단한다.\n";
+    std::cout << "[4] 전장을 떠나 대머리의 길을 걷는다.\n";
+    std::cout << "----------------------------------------\n";
+    std::cout << "입력 >> ";
+    std::cout << "\x1B[0m";
 
     int Choice;
-    cin >> Choice;
-    cin.ignore();
+    std::cin >> Choice;
+    std::cin.ignore();
 
     switch (Choice)
     {
@@ -68,16 +118,28 @@ void GameManager::Tick(float DeltaTime)
         break;
     case 4:
         bIsTickEnabled = false;
+        std::cout << "\n당신은 머리를 숙였습니다... 전장을 떠납니다.\n";
+        Sleep(1500);
         return;
     default:
-        cout << "잘못된 선택입니다. 다시 입력하세요.\n";
+        std::cout << "\n그런 선택지는 없다. 머리 식히고 다시 선택하라.\n";
         break;
     }
 
     system("pause");
 }
 
-void GameManager::CreateCharacter(string Name)
+void GameManager::Run()
+{
+	BeginPlay();    // BeginPlay() 호출로 게임 시작
+
+	while (bIsTickEnabled)  // bIsTickEnabled가 true인 동안 게임 루프 실행
+    {
+        Tick(0.016f);
+    }
+}
+
+void GameManager::CreateCharacter(std::string Name)
 {
     Player = new Character(Name);
     Player->SetHealth(200);
@@ -88,19 +150,28 @@ void GameManager::CreateCharacter(string Name)
 
 void GameManager::DisplayStatus(int Level)
 {
-    cout << "\n=== 현재 상태 ===\n";
-    cout << "이름: " << Player->GetName() << endl;
-    cout << "레벨: " << Player->GetLevel() << endl;
-    cout << "체력: " << Player->GetHealth() << " / " << MaxHealth << endl;
-    cout << "경험치: " << Player->GetExperience() << " / " << MaxExperience << endl;
-    cout << "골드: " << Player->GetGold() << endl;
-    cout << "==============\n";
+    std::ostringstream oss;
+
+    std::string name = Player->GetName();
+    std::string level = "Lv." + std::to_string(Player->GetLevel());
+    std::string hp = std::to_string(Player->GetHealth()) + " / " + std::to_string(MaxHealth);
+    std::string exp = std::to_string(Player->GetExperience()) + " / " + std::to_string(MaxExperience);
+    std::string gold = std::to_string(Player->GetGold()) + " G";
+
+    std::cout << "\n┌───────────────────── 두피 상태 리포트 ─────────────────────┐\n";
+    std::cout << "│ 코드네임        : " << std::left << std::setw(40) << name << " │\n";
+    std::cout << "│ 성장 등급       : " << std::left << std::setw(40) << level << " │\n";
+    std::cout << "│ 두피 내구도     : " << std::left << std::setw(40) << hp << " │\n";
+    std::cout << "│ 모근 경험치     : " << std::left << std::setw(40) << exp << " │\n";
+    std::cout << "│ 확보 자금       : " << std::left << std::setw(40) << gold << " │\n";
+    std::cout << "└────────────────────────────────────────────────────────────┘\n";
 }
 
-void GameManager::AddLog(string Message)
+
+void GameManager::AddLog(std::string Message)
 {
     GameLog.push_back(Message);
-    cout << "[로그] " << Message << endl;
+    std::cout << "[로그] " << Message << std::endl;
 }
 
 void GameManager::ShowGameLog(std::string Message)
@@ -108,90 +179,83 @@ void GameManager::ShowGameLog(std::string Message)
     std::cout << "[로그] " << Message << std::endl;
 }
 
-
-void GameManager::Battle(Monster* Enemy, Character* Player)
+void GameManager::Battle(MonsterBase* Enemy, Character* Player)
 {
-    std::cout << "\n=== 전투 시작! ===\n";
-    std::cout << ">> " << Enemy->getName() << " 등장!\n";
-    system("pause >nul"); // ✅ 스페이스바 대기
+    std::cout << "\n[!] 작전 개시. 두피 전장에 진입한다.\n";
+    std::cout << ">> 목표 식별: " << Enemy->GetName() << "\n";
+    std::cout << Enemy->GetName() << ": \"" << Enemy->GetRandomLine() << "\"\n";
 
-    while (Player->GetHealth() > 0 && Enemy->getHealth() > 0)
+    system("pause >nul");
+
+    while (Player->GetHealth() > 0 && Enemy->GetHealth() > 0)
     {
-        // 플레이어가 몬스터 공격
         int DamageToEnemy = Player->GetAttack();
-        Enemy->takeDamage(DamageToEnemy);
-        std::cout << ">> " << Enemy->getName() << "에게 " << DamageToEnemy << " 데미지를 입혔습니다. (남은 체력: " << Enemy->getHealth() << ")\n";
-        system("pause >nul"); // ✅ 스페이스바 대기
+        Enemy->TakeDamage(DamageToEnemy);
+        std::cout << "[공격] " << Enemy->GetName() << "에게 " << DamageToEnemy << " 피해를 입혔다. (남은 체력: " << Enemy->GetHealth() << ")\n";
 
-        // 몬스터 죽었는지 확인
-        if (Enemy->getHealth() <= 0)
+        system("pause >nul");
+
+        if (Enemy->GetHealth() <= 0)
         {
-            std::cout << ">> " << Enemy->getName() << " 처치 완료!\n";
+            std::cout << "[V] " << Enemy->GetName() << " 제거 완료.\n";
 
             int ExpReward = 20;
-            int GoldReward = 10 + (rand() % 41); // 10~50 골드 랜덤
+            int GoldReward = 10 + (std::rand() % 41);
 
             Player->SetExperience(Player->GetExperience() + ExpReward);
             Player->SetGold(Player->GetGold() + GoldReward);
 
-            std::cout << ">> 경험치 +" << ExpReward << ", 골드 +" << GoldReward << "\n";
+            std::cout << "[보상] 모근 경험치 +" << ExpReward << " | 자금 +" << GoldReward << " G\n";
 
-            AddLog("전투에서 승리했습니다.");
+            AddLog("작전 성공. 대머리 대상 제압 완료.");
 
             if (Player->GetExperience() >= MaxExperience)
             {
                 Player->SetExperience(0);
                 Player->SetLevel(Player->GetLevel() + 1);
                 Player->SetHealth(200);
-                std::cout << ">> 레벨업! 현재 레벨: " << Player->GetLevel() << "\n";
-                AddLog("레벨업 했습니다!");
+                std::cout << "[↑] 레벨업! 현재 레벨: " << Player->GetLevel() << "\n";
+                AddLog("당신의 두피가 한층 단단해졌다.");
             }
 
             return;
         }
 
-        // 몬스터가 플레이어 공격
         int BeforeHP = Player->GetHealth();
-        Player->TakeDamage(Enemy->getAttack());
+        Player->TakeDamage(Enemy->GetAttack());
         int AfterHP = Player->GetHealth();
 
         if (BeforeHP == AfterHP)
-            std::cout << ">> 플레이어가 공격을 회피했습니다!\n";
+            std::cout << "[회피] 민첩한 빗질로 공격을 피했다.\n";
         else
-            std::cout << ">> 플레이어가 " << (BeforeHP - AfterHP) << " 데미지를 입었습니다. (남은 체력: " << AfterHP << ")\n";
+            std::cout << "[피해] " << (BeforeHP - AfterHP) << " 데미지 입음. (잔여 체력: " << AfterHP << ")\n";
 
-        system("pause >nul"); // ✅ 스페이스바 대기
+        system("pause >nul");
     }
 
     if (Player->GetHealth() <= 0)
     {
-        std::cout << ">> 당신은 쓰러졌습니다...\n";
-        AddLog("전투에서 패배했습니다.");
+        std::cout << "[X] 당신은 쓰러졌다. 머리카락을 지키지 못했다...\n";
+        AddLog("작전 실패. 두피가 무너졌다.");
     }
 }
 
-
-
 void GameManager::StartRandomBattle(Character* Player)
 {
-    Monster* Enemy = nullptr;
+    MonsterBase* Enemy = nullptr;
     int Level = Player->GetLevel();
+
+    std::cout << "\n[!] 적 생체 반응 감지됨. 전투 모드로 전환한다.\n";
 
     if (Level >= 10)
     {
-        Enemy = new Black(Level);  // ✅ 깜댕이(보스)
+        std::cout << "[BOSS] 반사광이 급격히 강해진다... 진형형님이 나타났다.\n";
+        Enemy = new BossMonster(Level);
     }
     else
     {
-        int Random = rand() % 5;
-        switch (Random)
-        {
-        case 0: Enemy = new Yellow(Level); break;
-        case 1: Enemy = new White(Level);  break;
-        case 2: Enemy = new Green(Level);  break;
-        case 3: Enemy = new Blue(Level);   break;
-        case 4: Enemy = new Pink(Level);   break;
-        }
+        Enemy = new YellowMonster(Level); // 테스트용 1체
+        std::cout << "[적 등장] 스캔 완료: 야생의 노란 대머리와 조우했다.\n";
     }
 
     Battle(Enemy, Player);
@@ -199,23 +263,23 @@ void GameManager::StartRandomBattle(Character* Player)
 }
 
 
-
 void GameManager::EndGame()
 {
-    cout << "\n게임이 종료되었습니다!\n";
-    ShowGameLog("플레이어가 게임을 종료했습니다.");
+    std::cout << "\n당신은 도약 대신 후퇴를 택했다. 두피는 침묵했다.\n"; 
+    ShowGameLog("탈주 감지. 기록: '머리를 지키기엔 용기가 부족했다.'");
 }
+
 
 void GameManager::VisitShop()
 {
-    cout << "\n=== 상점 ===\n";
-    cout << "1. 체력 회복 (20골드)\n";
-    cout << "2. 아무것도 안 함\n";
-    cout << "입력 >> ";
+    std::cout << "\n=== 상점 ===\n";
+    std::cout << "1. 체력 회복 (20골드)\n";
+    std::cout << "2. 아무것도 안 함\n";
+    std::cout << "입력 >> ";
 
     int Input;
-    cin >> Input;
-    cin.ignore();
+    std::cin >> Input;
+    std::cin.ignore();
 
     if (Input == 1 && Player->GetGold() >= 20)
     {

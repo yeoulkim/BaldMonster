@@ -1,10 +1,10 @@
 #pragma once
 #include "MonsterBase.h"
 
-class BossMonster : public MonsterBase
+class YellowMonster : public MonsterBase
 {
 public:
-    BossMonster(int Level);
+    YellowMonster(int Level);
 
     std::string GetName() const override;
     std::string GetRandomLine() override;
