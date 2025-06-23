@@ -21,29 +21,52 @@ GameManager::~GameManager()
 }
 void Intro()
 {
-    std::cout << "\n";
+    std::cout << "\n\n";
+    std::cout << "2099년…\n\n";
     Sleep(1000);
 
+    std::cout << "인류의 머리카락은… 사라졌다.\n\n";
+    Sleep(1200);
+
+    std::cout << "탈모 바이러스 \"B-ald 99\"의 확산\n";
+    Sleep(600);
+
+    std::cout << "사람들의 머리는 하나둘씩 반짝이기 시작했고\n";
+    Sleep(900);
+
+    std::cout << "그 반짝임은… 곧 공포가 되었다.\n\n";
+    Sleep(1200);
+
+    std::cout << "그리고 그 틈을 타,\n";
+    Sleep(600);
+
+    std::cout << "어디선가 나타난 정체불명의 존재들…\n";
+    Sleep(1300);
+
+    std::cout << "\n\n";
+    Sleep(800);
+
     std::cout << "> \"...난 아직 탈모약을 믿는다.\"\n\n";
-    Sleep(1500);
+    Sleep(1000);
 
     std::cout << "> \"머리카락을 되찾기 위해, 난 그들을 벗겨버릴 것이다.\"\n\n";
-    Sleep(1500);
+    Sleep(1300);
 
     std::cout << "> \"난 마지막 모발 보유자다…\n";
     std::cout << "내 머리를 건들면… 가만 안 둬.\"\n\n";
-    Sleep(2000);
+    Sleep(1400);
 
     std::cout << "지금,\n\n";
-    Sleep(1000);
+    Sleep(700);
 
     std::cout << "머머리 군단에 맞서는\n\n";
-    Sleep(1000);
+    Sleep(800);
 
     std::cout << "최후의 모발 전쟁이 시작된다.\n\n";
-    Sleep(2000);
+    Sleep(1500);
 
     std::cout << "========================================\n";
+    std::cout << "\n\n";
     std::cout << "머리카락을 걸고 싸우시겠습니까? [Y/N]: ";
 
     char Input;
