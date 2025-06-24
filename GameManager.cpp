@@ -373,9 +373,9 @@ std::vector<Item*> GameManager::GetHealingShopItems()
 {
     std::vector<Item*> HealingItems;
 
-    HealingItems.push_back(new HealingItem("싸구려 탈모약", 20, "정수리에 소독약 느낌... 효과는 별로 없는 것 같다.", 30));
+    HealingItems.push_back(new HealingItem("싸구려 탈모약", 20, "정수리에 소독약 느낌... 효과는 미미 할 것 같다.", 30));
     HealingItems.push_back(new HealingItem("보통의 탈모약", 50, "약국에서도 파는 그냥저냥 무난한 탈모약. 이걸로 버틸 수 있을까...", 60));
-    HealingItems.push_back(new HealingItem("프리미엄 탈모약", 100, "모근이 감동받아 일어섰다. 광택이 돌아온다.", 100));
+    HealingItems.push_back(new HealingItem("프리미엄 탈모약", 100, "모근이 감동 받을듯한 약, 광택이 돌아올 것 같다", 100));
 
     return HealingItems;
 }
@@ -385,8 +385,8 @@ std::vector<Item*> GameManager::GetAttackShopItems()
 {
     std::vector<Item*> AttackItems;
 
-    AttackItems.push_back(new AttackItem("모근 브러시", 10, "정수리를 정돈했다. 명중률이 올라간다!", EAttackEffect::DirectDamage, 30));
-    AttackItems.push_back(new AttackItem("전투용 탈모약", 30, "부작용으로 분노가 치솟았다!", EAttackEffect::DirectDamage, 60));
+    AttackItems.push_back(new AttackItem("모근 브러시", 10, "이 그립감... 정수리 치기에 딱좋다!", EAttackEffect::DirectDamage, 30));
+    AttackItems.push_back(new AttackItem("전투용 탈모약", 30, "분노가 치솟는 부작용이 있다!", EAttackEffect::DirectDamage, 60));
 
     return AttackItems;
 }

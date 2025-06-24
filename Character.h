@@ -20,7 +20,7 @@ public:
     void Heal(int Amount);
     void TakeDamage(int Damage);
     void SetAttackBoost(float Multiplier);
-
+    
     // 매 턴마다 부스트 효과 제거
     void UpdateTurn();
 

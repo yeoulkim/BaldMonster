@@ -1,6 +1,7 @@
 ﻿#include "Character.h"
 #include <iostream>
 #include <iomanip>
+#include "AttackItem.h"
 
 Character::Character(std::string Name, int Health, int Attack, int Level)
     : Name(Name),
@@ -31,16 +32,42 @@ void Character::UseItem(const std::string& ItemName)
         if ((*It)->GetName() == ItemName)
         {
             std::cout << "\n[사용] \"" << ItemName << "\" 을(를) 사용합니다...\n";
-            (*It)->Use(this);
+
+            // AttackItem인지 검사해서 데미지 반환 받기 (Item을 AttackItem*로 캐스팅)
+            AttackItem* Attack = dynamic_cast<AttackItem*>(*It);
+            int dealtDamage = 0;
+            std::string targetName;
+
+            if (Attack)
+            {
+                dealtDamage = Attack->Use(this);
+                targetName = Attack->GetTargetEnemy()->GetName();  // TargetEnemy getter 필요
+            }
+            else
+            {
+                // 일반 아이템이면 기존대로 Use 호출
+                (*It)->Use(this);
+            }
+
+            // 아이템 설명 출력
+            std::cout << "[효과] " << (*It)->GetAcquireMessage() << "\n";
+
+            // 데미지 출력 (만약 데미지가 있다면)
+            if (dealtDamage > 0)
+            {
+                std::cout << "[아이템 공격] " << targetName << "에게 " << dealtDamage << " 피해를 입혔다!\n";
+            }
+
             delete* It;
             Inventory.erase(It);
-            std::cout << "[완료] 사용이 끝났습니다.\n";
+            std::cout << "[사용 완료] " << ItemName << " 이(가) 소멸 됐습니다.\n";
             return;
         }
     }
 
     std::cout << "\n[실패] \"" << ItemName << "\" 은(는) 손에 들고 있지 않습니다.\n";
 }
+
 
 // 틀 맞추기
 void Character::CheckInventory()
@@ -150,3 +177,7 @@ void Character::SetExperience(int NewExp) { Experience = NewExp; }
 void Character::SetGold(int NewGold) { Gold = NewGold; }
 void Character::SetHealth(int NewHealth) { Health = NewHealth; }
 void Character::SetLevel(int NewLevel) { Level = NewLevel; }
+
+std::vector<Item*> Character::GetInventory() const {
+    return Inventory;
+}

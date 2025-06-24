@@ -12,16 +12,17 @@ void AttackItem::SetTarget(MonsterBase* Target)
     TargetEnemy = Target;
 }
 
-void AttackItem::Use(Character* User)
+int AttackItem::Use(Character* User)
 {
-    if (!User || !TargetEnemy) return;
+    if (!User || !TargetEnemy) return 0;
 
     if (EffectType == EAttackEffect::DirectDamage)
     {
         TargetEnemy->TakeDamage(Damage);
-        std::cout << "[아이템 공격] " << TargetEnemy->GetName()
-            << "에게 " << Damage << " 피해를 입혔다!\n";
+        return Damage; // 입힌 데미지 반환
     }
+
+    return 0;
 }
 
 std::string AttackItem::GetName() const
@@ -37,4 +38,9 @@ std::string AttackItem::GetAcquireMessage() const
 int AttackItem::GetPrice() const
 {
     return Price; // 부모 클래스에서 상속받은 Price를 사용
+}
+
+MonsterBase* AttackItem::GetTargetEnemy() const
+{
+    return TargetEnemy;
 }

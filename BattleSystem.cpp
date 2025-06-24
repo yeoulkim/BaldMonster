@@ -1,5 +1,6 @@
 ﻿#include "BattleSystem.h"
 #include "GameManager.h"
+#include "AttackItem.h"
 #include <iostream>
 #include <cstdlib>
 #include <windows.h>
@@ -38,6 +39,16 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
             std::getline(std::cin, itemName);
 
             if (itemName != "취소")
+                for (auto* item : Player->GetInventory()) {
+                    if (item->GetName() == itemName) {
+                        // 공격 아이템이면 몬스터를 타겟으로 설정
+                        auto* attackItem = dynamic_cast<AttackItem*>(item);
+                        if (attackItem) {
+                            attackItem->SetTarget(Enemy); // ⭐ 이걸 안 하면 몬스터 안 맞음
+                        }
+                        break;
+                    }
+                }
                 Player->UseItem(itemName);
 
             // 아이템 사용 후 적 턴으로 넘어감
