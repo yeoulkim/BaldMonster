@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "BattleSystem.h"
 #include "MonsterBase.h"
+#include "Item.h"
 // #include "YellowMonster.h"
 // #include "BossMonster.h"
 // #include "Shop.h"
@@ -25,11 +26,16 @@ public:
     void AddLog(std::string Message);
     void StartRandomBattle(Character* Player);
     void LevelUp();
-    // void EndGame(); 
+    
     void VisitShop();
     void DisplayInventory(Character* Player);
+    void ShowShopItems(const std::vector<Item*>& ShopItems);
+    
     void ShowGameLog(std::string Message);
     void ResetGame();
+
+    std::vector<Item*> GetHealingShopItems();
+    std::vector<Item*> GetAttackShopItems();
 
 private:
     Character* Player = nullptr;

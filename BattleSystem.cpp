@@ -54,12 +54,16 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
             std::cout << "[피해] " << (BeforeHP - AfterHP)
             << " 데미지 입음. (잔여 체력: " << AfterHP << ")\n";
         system("pause >nul");
+
+        // 턴이 끝났으므로 공격력 버프 지속 시간 감소
+        Player->UpdateTurn();
+
     }
 
     // 게임 오버 처리, 재시작
     if (Player->GetHealth() <= 0)
     {
-        std::cout << "[GAME OVER] 당신은 쓰러졌다. 머리카락을 지키지 못했다...\n";
+        std::cout << "[GAME OVER] " << Player->GetName() << "이(가) 쓰러졌다. 머리카락을 지키지 못했다...\n";
         Sleep(1000);
 
         std::vector<std::string> GameOverLines = {

@@ -3,7 +3,7 @@
 
 BossMonster::BossMonster(int Level)
 {
-    Name = "보스대머리 — 진형형님";
+    Name = "보스대머리 — 진영형님";
     Health = 120 + Level * 10;
     Attack = 12 + Level * 4;
     Lines = {

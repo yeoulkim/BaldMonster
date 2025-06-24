@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "Item.h"
 #include <string>
 #include <vector>
+#include "Item.h"
 
 class Character
 {
@@ -15,6 +15,15 @@ public:
     void UseItem(const std::string& ItemName);
     void DisplayInventory();
     std::vector<Item*> GetInventory() const;
+    void CheckInventory();
+
+    void Heal(int Amount);
+    void TakeDamage(int Damage);
+    void SetAttackBoost(float Multiplier);
+ 
+    // 매 턴마다 부스트 효과 제거
+    void UpdateTurn(); 
+
 
     // 경험치/레벨업
     void GainExperience(int Amount);
@@ -34,11 +43,6 @@ public:
     void SetHealth(int NewHealth);
     void SetLevel(int NewLevel);
 
-    void TakeDamage(int Damage)
-    {
-        Health -= Damage;
-        if (Health < 0) Health = 0;
-    }
 
 private:
     std::string Name;
@@ -55,4 +59,8 @@ private:
     int InventorySize;
 
     std::vector<Item*> Inventory;  // ✅ 중복 제거 및 포인터 버전 유지
+
+    bool bAttackBoosted = false;
+    float AttackMultiplier = 1.0f;
+    int BoostedTurnCount = 0;
 };

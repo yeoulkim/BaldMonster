@@ -18,7 +18,9 @@ Character::Character(std::string Name, int Health, int Attack, int Level)
 void Character::AddItem(Item* NewItem)
 {
     Inventory.push_back(NewItem);
-    std::cout << NewItem->GetName() << "을(를) 획득했습니다!" << std::endl;
+
+    std::cout << "\n[획득] \"" << NewItem->GetName() << "\" 을(를) 손에 넣었다.\n";
+    std::cout << "[설명] " << NewItem->GetAcquireMessage() << "\n";
 }
 
 void Character::UseItem(const std::string& ItemName)
@@ -27,42 +29,109 @@ void Character::UseItem(const std::string& ItemName)
     {
         if ((*It)->GetName() == ItemName)
         {
-            (*It)->Use(this);       // Character* 전달
-            delete* It;             // 메모리 해제
+            std::cout << "\n[사용] \"" << ItemName << "\" 을(를) 사용합니다...\n";
+            (*It)->Use(this);
+            delete* It;
             Inventory.erase(It);
+            std::cout << "[완료] 사용이 끝났습니다.\n";
             return;
         }
     }
-    std::cout << ItemName << " 아이템이 없습니다!" << std::endl;
+
+    std::cout << "\n[실패] \"" << ItemName << "\" 은(는) 손에 들고 있지 않습니다.\n";
 }
 
-void Character::DisplayInventory()
+// 틀 맞추기
+void Character::CheckInventory()
 {
-    std::cout << "===== 인벤토리 =====" << std::endl;
-    for (auto* Item : Inventory)
+    std::cout << "\n┌───────  탈모 생존 키트  ───────┐\n";
+
+    if (Inventory.empty())
     {
-        std::cout << "- " << Item->GetName() << std::endl;
+        std::cout << "│  아직 두피를 지킬 아이템이 없습니다.     │\n";
     }
-    std::cout << "====================" << std::endl;
+    else
+    {
+        for (auto* Item : Inventory)
+        {
+            std::cout << "│  - " << Item->GetName() << "\n";
+        }
+    }
+
+    std::cout << "└─────────────────────────────┘\n";
 }
 
-std::vector<Item*> Character::GetInventory() const
+void Character::TakeDamage(int Damage)
 {
-    return Inventory;
+    Health -= Damage;
+    if (Health < 0)
+    {
+        Health = 0;
+    }
+
+    std::cout << Name << "이(가) " << Damage << "의 피해를 입었다. 모근이 흔들린다...\n";
 }
+
+
+void Character::SetAttackBoost(float Multiplier)
+{
+    AttackMultiplier = Multiplier;  // 단순히 공격력 배율만 설정
+    std::cout << Name << "의 머리카락에 광택이 살아났다! (×" << Multiplier << " 공격력)\n";
+}
+
+
+int Character::GetAttack() const
+{
+    if (bAttackBoosted && BoostedTurnCount > 0)
+    {
+        return static_cast<int>(Attack * AttackMultiplier);
+    }
+    return Attack;
+}
+
+void Character::Heal(int Amount)
+{
+    Health += Amount;
+    if (Health > MaxHealth)
+    {
+        Health = MaxHealth;
+    }
+
+    std::cout << Name << "이(가) 두피에 활력을 되찾았다! +" << Amount << " 체력 (현재 체력: " << Health << ")\n";
+}
+
+// 매 턴마다 호출되어 공격력 강화 상태를 업데이트
+void Character::UpdateTurn()
+{
+    if (BoostedTurnCount > 0)
+    {
+        BoostedTurnCount--;
+
+        if (BoostedTurnCount == 0)
+        {
+            bAttackBoosted = false;
+            AttackMultiplier = 1.0f;
+            std::cout << Name << "의 광택 효과가 사라졌다. 머릿결이 상했다...\n";
+        }
+    }
+}
+
 
 void Character::GainExperience(int Amount)
 {
     Experience += Amount;
-    std::cout << Amount << " 경험치를 획득했습니다!" << std::endl;
+    std::cout << "[경험치] +" << Amount << " 경험치를 흡수했다!\n";
+
     while (Experience >= MaxExperience && Level < MaxLevel)
     {
         Experience -= MaxExperience;
         Level++;
         MaxHealth += 20;
-		Health = MaxHealth; // 레벨 업 시 체력 회복
+        Health = MaxHealth;
         Attack += 5;
-        std::cout << "레벨 업! 현재 레벨: " << Level << std::endl;
+
+        std::cout << "\n[↑] 레벨업! 당신의 두피가 한층 더 단단해졌다.\n";
+        std::cout << "▶ 현재 레벨: " << Level << " | 체력: " << MaxHealth << " | 공격력: " << Attack << "\n";
     }
 }
 
@@ -70,7 +139,6 @@ void Character::GainExperience(int Amount)
 std::string Character::GetName() const { return Name; }
 int Character::GetHealth() const { return Health; }
 int Character::GetMaxHealth() const { return MaxHealth; }
-int Character::GetAttack() const { return Attack; }
 int Character::GetLevel() const { return Level; }
 int Character::GetGold() const { return Gold; }
 int Character::GetExperience() const { return Experience; }

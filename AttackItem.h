@@ -1,19 +1,24 @@
 ﻿#pragma once
-
 #include "Item.h"
-#include "Character.h"
+
+enum class EAttackEffect
+{
+    DirectDamage
+};
 
 class AttackItem : public Item
 {
 public:
-    AttackItem(std::string InName, int InDamage)
-        : Name(InName), Damage(InDamage) {
-    }
+    AttackItem(std::string InName, int InDamage, std::string InMessage, EAttackEffect InEffectType, int InPrice);
 
-    virtual void Use(Character* Target) override;
-    virtual std::string GetName() const override;
+    void Use(Character* Target) override;
+    std::string GetName() const override;
+    std::string GetAcquireMessage() const override;
+    int GetPrice() const override;
 
 private:
-    std::string Name;
     int Damage;
+    std::string AcquireMessage;
+    EAttackEffect EffectType;
+    int Price;
 };
