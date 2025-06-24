@@ -14,11 +14,46 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
     system("pause >nul");
     while (Player->GetHealth() > 0 && Enemy->GetHealth() > 0)
     {
-        int DamageToEnemy = Player->GetAttack();
-        Enemy->TakeDamage(DamageToEnemy);
-        std::cout << "[공격] " << Enemy->GetName() << "에게 " << DamageToEnemy
-            << " 피해를 입혔다. (남은 체력: " << Enemy->GetHealth() << ")\n";
+        std::cout << "\n[당신의 턴입니다]\n";
+        std::cout << "1. 공격\n";
+        std::cout << "2. 아이템 사용\n";
+        std::cout << "3. 도망가기\n";
+        std::cout << ">> ";
+        int choice;
+        std::cin >> choice;
+        std::cin.ignore();
+
+        system("cls");
+
+        if (choice == 1) {
+            int DamageToEnemy = Player->GetAttack();
+            Enemy->TakeDamage(DamageToEnemy);
+            std::cout << "[공격] " << Enemy->GetName() << "에게 " << DamageToEnemy
+                << " 피해를 입혔다. (남은 체력: " << Enemy->GetHealth() << ")\n";
+        }
+        else if (choice == 2) {
+            Player->CheckInventory();
+            std::cout << "\n사용할 아이템 이름을 입력하세요 (취소: '취소'):\n>> ";
+            std::string itemName;
+            std::getline(std::cin, itemName);
+
+            if (itemName != "취소")
+                Player->UseItem(itemName);
+
+            // 아이템 사용 후 적 턴으로 넘어감
+        }
+        else if (choice == 3) {
+            std::cout << "당신은 도망쳤습니다!\n";
+            return; // 전투 종료
+        }
+        else {
+            std::cout << "잘못된 입력입니다. 턴을 소모하지 않습니다.\n";
+            continue; // 다시 선택
+        }
+
         system("pause >nul");
+
+        // 몬스터가 죽었는지 체크
         if (Enemy->GetHealth() <= 0)
         {
             std::cout << "[V] " << Enemy->GetName() << " 제거 완료.\n";
@@ -26,25 +61,15 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
             int ExpReward = 20;
             int GoldReward = 10 + (rand() % 41);
 
-            Player->GainExperience(ExpReward);  // ✅ 레벨업 처리 포함
-
+            Player->GainExperience(ExpReward);
             Player->SetGold(Player->GetGold() + GoldReward);
-            std::cout << "[보상] 모근 경험치 +" << ExpReward << " | 자금 +" << GoldReward << " G\n";
+            std::cout << "[보상] 경험치 +" << ExpReward << " | 자금 +" << GoldReward << " G\n";
 
             system("pause >nul");
             return;
-        
-            /*if (NewExp >= MaxExperience)
-            {
-                Player->SetExperience(0);
-                Player->SetLevel(Player->GetLevel() + 1);
-                Player->SetHealth(200);
-                std::cout << "[↑] 레벨업! 현재 레벨: " << Player->GetLevel() << "\n";
-                std::cout << "[=] 당신의 두피가 한층 더 단단해졌다.\n";
-                system("pause >nul");
-            }*/
-            return;
         }
+
+        // 적의 턴
         int BeforeHP = Player->GetHealth();
         Player->TakeDamage(Enemy->GetAttack());
         int AfterHP = Player->GetHealth();
@@ -53,12 +78,59 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
         else
             std::cout << "[피해] " << (BeforeHP - AfterHP)
             << " 데미지 입음. (잔여 체력: " << AfterHP << ")\n";
-        system("pause >nul");
 
-        // 턴이 끝났으므로 공격력 버프 지속 시간 감소
+        // 턴 끝날 때 효과 업데이트
         Player->UpdateTurn();
 
+        system("pause >nul");
     }
+    //while (Player->GetHealth() > 0 && Enemy->GetHealth() > 0)
+    //{
+    //    int DamageToEnemy = Player->GetAttack();
+    //    Enemy->TakeDamage(DamageToEnemy);
+    //    std::cout << "[공격] " << Enemy->GetName() << "에게 " << DamageToEnemy
+    //        << " 피해를 입혔다. (남은 체력: " << Enemy->GetHealth() << ")\n";
+    //    system("pause >nul");
+    //    if (Enemy->GetHealth() <= 0)
+    //    {
+    //        std::cout << "[V] " << Enemy->GetName() << " 제거 완료.\n";
+
+    //        int ExpReward = 20;
+    //        int GoldReward = 10 + (rand() % 41);
+
+    //        Player->GainExperience(ExpReward);  // ✅ 레벨업 처리 포함
+
+    //        Player->SetGold(Player->GetGold() + GoldReward);
+    //        std::cout << "[보상] 모근 경험치 +" << ExpReward << " | 자금 +" << GoldReward << " G\n";
+
+    //        system("pause >nul");
+    //        return;
+
+    //        /*if (NewExp >= MaxExperience)
+    //        {
+    //            Player->SetExperience(0);
+    //            Player->SetLevel(Player->GetLevel() + 1);
+    //            Player->SetHealth(200);
+    //            std::cout << "[↑] 레벨업! 현재 레벨: " << Player->GetLevel() << "\n";
+    //            std::cout << "[=] 당신의 두피가 한층 더 단단해졌다.\n";
+    //            system("pause >nul");
+    //        }*/
+    //        return;
+    //    }
+    //    int BeforeHP = Player->GetHealth();
+    //    Player->TakeDamage(Enemy->GetAttack());
+    //    int AfterHP = Player->GetHealth();
+    //    if (BeforeHP == AfterHP)
+    //        std::cout << "[회피] 민첩한 빗질로 공격을 피했다.\n";
+    //    else
+    //        std::cout << "[피해] " << (BeforeHP - AfterHP)
+    //        << " 데미지 입음. (잔여 체력: " << AfterHP << ")\n";
+    //    system("pause >nul");
+
+    //    // 턴이 끝났으므로 공격력 버프 지속 시간 감소
+    //    Player->UpdateTurn();
+
+    //}
 
     // 게임 오버 처리, 재시작
     if (Player->GetHealth() <= 0)

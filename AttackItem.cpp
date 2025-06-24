@@ -3,16 +3,24 @@
 #include <iostream>
 
 AttackItem::AttackItem(std::string InName, int InDamage, std::string InMessage, EAttackEffect InEffectType, int InPrice)
-    : Item(InName, InPrice), Damage(InDamage), AcquireMessage(InMessage), EffectType(InEffectType) {}
+    : Item(InName, InPrice), Damage(InDamage), AcquireMessage(InMessage), EffectType(InEffectType) {
+}
 
-void AttackItem::Use(Character* Target)
+
+void AttackItem::SetTarget(MonsterBase* Target)
 {
-    if (!Target) return;
+    TargetEnemy = Target;
+}
+
+void AttackItem::Use(Character* User)
+{
+    if (!User || !TargetEnemy) return;
 
     if (EffectType == EAttackEffect::DirectDamage)
     {
-        Target->TakeDamage(Damage);
-        std::cout << Target->GetName() << "의 두피에 " << Damage << "의 타격을 입혔다! 모근이 흔들린다...\n";
+        TargetEnemy->TakeDamage(Damage);
+        std::cout << "[아이템 공격] " << TargetEnemy->GetName()
+            << "에게 " << Damage << " 피해를 입혔다!\n";
     }
 }
 

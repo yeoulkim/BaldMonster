@@ -68,7 +68,7 @@ void Intro()
 
     std::cout << "========================================\n";
     std::cout << "\n\n";
-    
+
 
     char Input;
 
@@ -101,10 +101,10 @@ void Intro()
 
 void GameManager::BeginPlay()
 {
-	if (bIsFirstPlay)   // bIsFristPlay가 true인 경우에만 Intro() 호출
+    if (bIsFirstPlay)   // bIsFristPlay가 true인 경우에만 Intro() 호출
     {
         Intro();
-		bIsFirstPlay = false;
+        bIsFirstPlay = false;
     }
 
     std::srand(static_cast<unsigned int>(std::time(0)));
@@ -175,9 +175,9 @@ void GameManager::Tick(float DeltaTime)
 
 void GameManager::Run()
 {
-	BeginPlay();    // BeginPlay() 호출로 게임 시작
+    BeginPlay();    // BeginPlay() 호출로 게임 시작
 
-	while (bIsTickEnabled)  // bIsTickEnabled가 true인 동안 게임 루프 실행
+    while (bIsTickEnabled)  // bIsTickEnabled가 true인 동안 게임 루프 실행
     {
         Tick(0.016f);
     }
@@ -298,7 +298,7 @@ void GameManager::VisitShop()
     std::cout << "│  1. 두피를 회복시킬 탈모약         │\n";
     std::cout << "│  2. 두피 강화할 공격 아이템        │\n";
     std::cout << "│  0. 상점 나가기                    │\n";
-    std::cout << "└────────────────────────────────────┘\n";  
+    std::cout << "└────────────────────────────────────┘\n";
 
     std::cout << "아이템을 선택하세요 >> ";
     std::cin >> Choice;

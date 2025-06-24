@@ -26,11 +26,11 @@ public:
     void AddLog(std::string Message);
     void StartRandomBattle(Character* Player);
     void LevelUp();
-    
+
     void VisitShop();
     void DisplayInventory(Character* Player);
     void ShowShopItems(const std::vector<Item*>& ShopItems);
-    
+
     void ShowGameLog(std::string Message);
     void ResetGame();
 
@@ -40,7 +40,7 @@ public:
 private:
     Character* Player = nullptr;
     int Gold = 0;
-	//int MaxHealth = 200;
+    //int MaxHealth = 200;
     int MaxExperience = 100;
     int MaxLevel = 10;
     int InventorySize = 0;
