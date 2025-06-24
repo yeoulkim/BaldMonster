@@ -33,29 +33,19 @@ void Character::UseItem(const std::string& ItemName)
         {
             std::cout << "\n[사용] \"" << ItemName << "\" 을(를) 사용합니다...\n";
 
-            // AttackItem인지 검사해서 데미지 반환 받기 (Item을 AttackItem*로 캐스팅)
+            // AttackItem인지 검사해서 AttackItem을 사용
             AttackItem* Attack = dynamic_cast<AttackItem*>(*It);
-            int dealtDamage = 0;
-            std::string targetName;
-
             if (Attack)
             {
-                dealtDamage = Attack->Use(this);
-                targetName = Attack->GetTargetEnemy()->GetName();  // TargetEnemy getter 필요
+                // 먼저 아이템의 효과를 출력하고, 그 후 AttackItem::Use에서 타겟 공격 메시지가 출력됨
+                std::cout << "[효과] " << (*It)->GetAcquireMessage() << "\n";
+                Attack->Use(this);  // AttackItem의 Use 함수 호출 (타겟 이름과 피해량 출력됨)
             }
             else
             {
                 // 일반 아이템이면 기존대로 Use 호출
                 (*It)->Use(this);
-            }
-
-            // 아이템 설명 출력
-            std::cout << "[효과] " << (*It)->GetAcquireMessage() << "\n";
-
-            // 데미지 출력 (만약 데미지가 있다면)
-            if (dealtDamage > 0)
-            {
-                std::cout << "[아이템 공격] " << targetName << "에게 " << dealtDamage << " 피해를 입혔다!\n";
+                std::cout << "[효과] " << (*It)->GetAcquireMessage() << "\n";
             }
 
             delete* It;

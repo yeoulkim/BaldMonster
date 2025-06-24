@@ -12,17 +12,17 @@ void AttackItem::SetTarget(MonsterBase* Target)
     TargetEnemy = Target;
 }
 
-int AttackItem::Use(Character* User)
+void AttackItem::Use(Character* User)
 {
-    if (!User || !TargetEnemy) return 0;
+    if (!User || !TargetEnemy) return;
 
     if (EffectType == EAttackEffect::DirectDamage)
     {
         TargetEnemy->TakeDamage(Damage);
-        return Damage; // 입힌 데미지 반환
+        // 타겟 이름을 가져와서 출력
+        std::string targetName = TargetEnemy->GetName();  // GetName을 사용해서 타겟 이름 가져오기
+        std::cout << "[아이템 공격] " << targetName << "에게 " << Damage << " 피해를 입혔다!\n";
     }
-
-    return 0;
 }
 
 std::string AttackItem::GetName() const
