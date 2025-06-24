@@ -1,5 +1,6 @@
 ﻿#include "Character.h"
 #include <iostream>
+#include <iomanip>
 
 Character::Character(std::string Name, int Health, int Attack, int Level)
     : Name(Name),
@@ -44,21 +45,21 @@ void Character::UseItem(const std::string& ItemName)
 // 틀 맞추기
 void Character::CheckInventory()
 {
-    std::cout << "\n┌───────  탈모 생존 키트  ───────┐\n";
+    std::cout << "\n┌───────────  탈모 생존 키트  ───────────┐\n";
 
     if (Inventory.empty())
     {
-        std::cout << "│  아직 두피를 지킬 아이템이 없습니다.     │\n";
+        std::cout << "│  아직 두피를 지킬 아이템이 없습니다.   │\n";
     }
     else
     {
         for (auto* Item : Inventory)
         {
-            std::cout << "│  - " << Item->GetName() << "\n";
+            std::cout << "│  - " << std::left << std::setw(15) << Item->GetName() << "                     │" << "\n";
         }
     }
 
-    std::cout << "└─────────────────────────────┘\n";
+    std::cout << "└────────────────────────────────────────┘\n";
 }
 
 void Character::TakeDamage(int Damage)

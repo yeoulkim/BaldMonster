@@ -7,7 +7,6 @@ enum class EItemSource
 {
     MonsterDrop,
     ShopPurchase,
-    QuestReward
 };
 
 class Item

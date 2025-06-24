@@ -68,24 +68,34 @@ void Intro()
 
     std::cout << "========================================\n";
     std::cout << "\n\n";
-    std::cout << "머리카락을 걸고 싸우시겠습니까? [Y/N]: ";
+    
 
     char Input;
-    std::cin >> Input;
-    std::cin.ignore();
 
-    if (Input == 'Y' || Input == 'y')
+    while (true)
     {
-        std::cout << "\n모근을 다잡고, 전장으로 나아갑니다...\n";
-        Sleep(1500);
-    }
-    else
-    {
-        std::cout << "\n당신은... 민둥산의 길을 택했습니다.\n";
-        Sleep(1500);
-        std::cout << "이제, 당신도 머머리입니다.\n";
-        Sleep(1500);
-        exit(0);
+        std::cout << "머리카락을 걸고 싸우시겠습니까? [Y/N]: ";
+        std::cin >> Input;
+        std::cin.ignore();
+
+        if (Input == 'Y' || Input == 'y')
+        {
+            std::cout << "\n모근을 다잡고, 전장으로 나아갑니다...\n";
+            Sleep(1500);
+            break;
+        }
+        else if (Input == 'N' || Input == 'n')
+        {
+            std::cout << "\n당신은... 민둥산의 길을 택했습니다.\n";
+            Sleep(1500);
+            std::cout << "이제, 당신도 머머리입니다.\n";
+            Sleep(1500);
+            exit(0);
+        }
+        else
+        {
+            std::cout << "잘못된 입력입니다. Y 또는 N을 입력하세요.\n";
+        }
     }
 }
 
@@ -99,7 +109,7 @@ void GameManager::BeginPlay()
 
     std::srand(static_cast<unsigned int>(std::time(0)));
 
-    std::cout << "\n===== [ 대머리 연합군 등록소 ] =====\n";
+    std::cout << "\n===== [ 대머리 사냥꾼 등록소 ] =====\n";
     std::string Name;
     std::cout << "머리카락 보유자여, 이름을 남기시오: ";
     std::getline(std::cin, Name);
@@ -282,13 +292,14 @@ void GameManager::StartRandomBattle(Character* Player)
 void GameManager::VisitShop()
 {
     int Choice;
-    std::cout << "\n┌──────  탈모약 상점  ─────────┐\n";
-    std::cout << "│  보유 골드: " << Player->GetGold() << " G             │\n";
-    std::cout << "├─────────────────────────────┤\n";
-    std::cout << "1. 두피를 회복시킬 탈모약\n";
-    std::cout << "2. 두피 강화할 공격 아이템\n";
-    std::cout << "0. 상점 나가기\n";
-    std::cout << "└───────────────────────────────┘\n";  
+    std::cout << "\n┌───────────  탈모약 상점  ──────────┐\n";
+    std::cout << "│  보유 골드: " << std::right << std::setw(5) << Player->GetGold() << " G                │\n";
+    std::cout << "├────────────────────────────────────┤\n";
+    std::cout << "│  1. 두피를 회복시킬 탈모약         │\n";
+    std::cout << "│  2. 두피 강화할 공격 아이템        │\n";
+    std::cout << "│  0. 상점 나가기                    │\n";
+    std::cout << "└────────────────────────────────────┘\n";  
+
     std::cout << "아이템을 선택하세요 >> ";
     std::cin >> Choice;
     std::cin.ignore();
@@ -316,13 +327,13 @@ void GameManager::VisitShop()
 
 void GameManager::ShowShopItems(const std::vector<Item*>& ShopItems)
 {
-    std::cout << "\n┌──────  아이템 목록  ─────────┐\n";
+    std::cout << "\n┌─────────────  아이템 목록  ─────────────┐\n";
     for (size_t i = 0; i < ShopItems.size(); ++i)
     {
-        std::cout << "│  " << i + 1 << ". " << ShopItems[i]->GetName()
-            << " - 가격: " << ShopItems[i]->GetPrice() << " G     │\n";
+        std::cout << "│  " << i + 1 << ". " << std::left << std::setw(15) << ShopItems[i]->GetName()
+            << " - 가격: " << std::right << std::setw(5) << ShopItems[i]->GetPrice() << " G     │\n";
     }
-    std::cout << "└───────────────────────────────┘\n";
+    std::cout << "└─────────────────────────────────────────┘\n";
     std::cout << "0. 상점 나가기\n";
     std::cout << "구매할 아이템 번호를 입력하세요 >> ";
 

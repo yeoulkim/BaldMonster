@@ -20,5 +20,4 @@ private:
     int Damage;
     std::string AcquireMessage;
     EAttackEffect EffectType;
-    int Price;
 };
