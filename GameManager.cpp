@@ -245,37 +245,40 @@ void GameManager::StartRandomBattle(Character* Player)
         Sleep(1000);
         std::cout << "[경고] 비정상적인 탈모 수치 감지\n";
         Sleep(1200);
-        std::cout << "[시스템] 모근 안정화 불가. 긴급 프로토콜 활성화\n";
+        std::cout << "[시스템] 모근 안정화 실패. 긴급 프로토콜을 발동합니다...\n";
         Sleep(1200);
         std::cout << "...\n";
         Sleep(800);
         std::cout << "[ALERT] 대규모 반사광 신호 감지됨\n";
         Sleep(1200);
-        std::cout << "\n[!]  정체불명의 존재가 접근 중입니다...\n";
+        std::cout << "\n[!] 정체불명의 존재가 접근 중입니다...\n";
         Sleep(1500);
-        std::cout << "빛의 강도가 일정 수치를 넘었습니다. 시야 확보 불가...\n";
+        std::cout << "빛의 강도가 임계치를 초과했습니다. 시야 확보 불가...\n";
         Sleep(1500);
         std::cout << "\n\n\"...진영형님이... 오고 계십니다.\"\n";
         Sleep(2000);
-        std::cout << "\n당신은 준비되어 있습니까...?\n";
+        std::cout << "\n당신은 준비되어 있습니까...? [Y/N]\n";
 
         char Input;
         std::cin >> Input;
         std::cin.ignore();
 
-        if (Input != 'Y' && Input != 'y')
+        if (Input != 'Y' && Input != 'y')   // 회피 처리
         {
             std::cout << "\n당신은... 아직 그분과 마주할 준비가 되지 않았다.\n";
             Sleep(1200);
-            std::cout << "[*] 전장에서 물러났습니다.\n";
-            AddLog("진영형님과의 조우를 회피했다.");
-            return; // 전투 시작 없이 함수 종료
+            std::cout << "[이탈] 전장을 벗어납니다.\n";
+            AddLog("진영형님과의 조우를 회피했다. 모발은 살아남았지만, 자존심은 흔들렸다.");
+            return;
         }
 
         Enemy = new BossMonster(Level);
     }
+
     else
+    {
         Enemy = new YellowMonster(Level); // 예시 몬스터
+    }
 
     BattleSystem::StartBattle(Player, Enemy, MaxExperience);
     delete Enemy;
@@ -291,22 +294,27 @@ void GameManager::StartRandomBattle(Character* Player)
 // 틀 맞추기
 void GameManager::VisitShop()
 {
+    std::cout << "\n[안내] 보급소 도착. 전장 투입 전 준비를 마치십시오.\n";
+    Sleep(1000);
+
     int Choice;
-    std::cout << "\n┌───────────  탈모약 상점  ──────────┐\n";
+    std::cout << "\n┌───────────  탈모약 보급소  ──────────┐\n";
     std::cout << "│  보유 골드: " << std::right << std::setw(5) << Player->GetGold() << " G                │\n";
     std::cout << "├────────────────────────────────────┤\n";
-    std::cout << "│  1. 두피를 회복시킬 탈모약         │\n";
-    std::cout << "│  2. 두피 강화할 공격 아이템        │\n";
-    std::cout << "│  0. 상점 나가기                    │\n";
+    std::cout << "│  1. 두피 회복용 탈모약 구매        │\n";
+    std::cout << "│  2. 공격형 탈모 도구 구매       │\n";
+    std::cout << "│  0. 전장으로 복귀                    │\n";
     std::cout << "└────────────────────────────────────┘\n";
 
-    std::cout << "아이템을 선택하세요 >> ";
+    std::cout << "당신의 행동을 선택하시오 >> ";
     std::cin >> Choice;
     std::cin.ignore();
 
     if (Choice == 0)
     {
-        AddLog("상점에서 물러났다.");
+        std::cout << "\n[안내] 보급 종료. 전장으로 복귀합니다.\n";
+        AddLog("머리를 싸매고 보급소를 빠져나왔다...");
+
         return;  // 상점 나가기
     }
     else if (Choice == 1)
@@ -321,21 +329,21 @@ void GameManager::VisitShop()
     }
     else
     {
-        std::cout << "잘못된 입력입니다.\n";
+        std::cout << "[!] 유효하지 않은 선택입니다. 다시 시도하시오.\n";
     }
 }
 
 void GameManager::ShowShopItems(const std::vector<Item*>& ShopItems)
 {
-    std::cout << "\n┌─────────────  아이템 목록  ─────────────┐\n";
+    std::cout << "\n┌─────────────  전장 보급 목록 ─────────────┐\n";
     for (size_t i = 0; i < ShopItems.size(); ++i)
     {
         std::cout << "│  " << i + 1 << ". " << std::left << std::setw(15) << ShopItems[i]->GetName()
             << " - 가격: " << std::right << std::setw(5) << ShopItems[i]->GetPrice() << " G     │\n";
     }
     std::cout << "└─────────────────────────────────────────┘\n";
-    std::cout << "0. 상점 나가기\n";
-    std::cout << "구매할 아이템 번호를 입력하세요 >> ";
+    std::cout << "0. 보급소를 떠난다\n";
+    std::cout << "당신의 보급 선택을 입력하시오 >> ";
 
     int Choice;
     std::cin >> Choice;
@@ -343,29 +351,64 @@ void GameManager::ShowShopItems(const std::vector<Item*>& ShopItems)
 
     if (Choice == 0)
     {
-        AddLog("상점에서 물러났다.");
+        std::cout << "\n[안내] 보급 종료. 전장으로 복귀합니다.\n";
+        AddLog("머리를 싸매고 보급소를 빠져나왔다...");
         return;  // 상점 나가기
     }
     else if (Choice >= 1 && Choice <= static_cast<int>(ShopItems.size()))
     {
-        int Price = ShopItems[Choice - 1]->GetPrice();  // 가격 반영
+        Item* SelectedItem = ShopItems[Choice - 1];
+        int Price = SelectedItem->GetPrice();  // 가격 반영
 
+        // ✅ HealingItem일 경우: 구매 전에 경고 + 바로 사용 처리
+        if (dynamic_cast<HealingItem*>(SelectedItem))
+        {
+            std::cout << "\n[안내] 탈모약은 구매 즉시 사용됩니다. 신중히 선택하십시오.\n";
+            std::cout << "[1] 복용하고 전장에 대비한다\n";
+            std::cout << "[2] 지갑을 지켜낸다\n";
+            std::cout << "당신의 행동을 선택하시오 >> ";
+
+            int Confirm;
+            std::cin >> Confirm;
+            std::cin.ignore();
+
+            if (Confirm == 1)
+            {
+                if (Player->GetGold() >= Price)
+                {
+                    Player->SetGold(Player->GetGold() - Price);
+                    SelectedItem->Use(Player);  // ✅ 바로 효과 적용
+                    AddLog(SelectedItem->GetName() + "을(를) 구매하고 즉시 사용했다.\n두피에 힘이 돌아온다...");
+                }
+                else
+                {
+                    AddLog("보유 골드가 부족하다. 더 이상 지갑을 열 수 없다...");
+
+                }
+            }
+            else
+            {
+                AddLog("구매를 취소했다. 두피는 아직 결정을 망설이고 있다.");
+            }
+
+            return; // HealingItem 처리 후 함수 종료
+        }
+
+        // ✅ 공격 아이템
         if (Player->GetGold() >= Price)
         {
-            Item* SelectedItem = ShopItems[Choice - 1];
             Player->SetGold(Player->GetGold() - Price);
             Player->AddItem(SelectedItem);
-
-            AddLog(SelectedItem->GetName() + "을(를) 구매했습니다.");
+            AddLog(SelectedItem->GetName() + "을(를) 구매했다. 정수리 전투력이 상승한다.");
         }
         else
         {
-            AddLog("골드가 부족하여 아이템을 구매하지 못했습니다.");
+            AddLog("보유 골드가 부족하다. 더 이상 지갑을 열 수 없다...");
         }
     }
     else
     {
-        std::cout << "잘못된 입력입니다.\n";
+        std::cout << "[!] 유효하지 않은 선택입니다. 다시 시도하시오.\n";
     }
 }
 
@@ -385,7 +428,7 @@ std::vector<Item*> GameManager::GetAttackShopItems()
 {
     std::vector<Item*> AttackItems;
 
-    AttackItems.push_back(new AttackItem("모근 브러시", 10, "이 그립감... 정수리 치기에 딱좋다!", EAttackEffect::DirectDamage, 30));
+    AttackItems.push_back(new AttackItem("모근 브러시", 10, "이 그립감... 정수리 치기에 딱 좋다!", EAttackEffect::DirectDamage, 30));
     AttackItems.push_back(new AttackItem("전투용 탈모약", 30, "분노가 치솟는 부작용이 있다!", EAttackEffect::DirectDamage, 60));
 
     return AttackItems;

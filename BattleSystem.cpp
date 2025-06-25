@@ -10,55 +10,67 @@ extern GameManager* GManager;   // GameManager에 접근하기 위해 전역 포
 void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExperience)
 {
     std::cout << "\n[!] 작전 개시. 두피 전장에 진입한다.\n";
-    std::cout << ">> 목표 식별: " << Enemy->GetName() << "\n";
+    std::cout << "\n[목표 확인] " << Enemy->GetName() << " 등장!\n";
     std::cout << Enemy->GetName() << ": \"" << Enemy->GetRandomLine() << "\"\n";
+
     system("pause >nul");
     while (Player->GetHealth() > 0 && Enemy->GetHealth() > 0)
     {
-        std::cout << "\n[당신의 턴입니다]\n";
-        std::cout << "1. 공격\n";
-        std::cout << "2. 아이템 사용\n";
-        std::cout << "3. 도망가기\n";
-        std::cout << ">> ";
+        std::cout << "\n[ + 작전 선택 + ]\n";
+        std::cout << "┌─────────────────────┐\n";
+        std::cout << "│ 1. 정수리 맨주먹 공격           │\n";
+        std::cout << "│ 2. 두피 보존 키트 사용          │\n";
+        std::cout << "│ 3. 전장 후퇴 (도망가기)         │\n";
+        std::cout << "└─────────────────────┘\n";
+        std::cout << "명령을 입력하시오 >> ";
         int choice;
         std::cin >> choice;
         std::cin.ignore();
 
         system("cls");
 
-        if (choice == 1) {
+        if (choice == 1) 
+        {
             int DamageToEnemy = Player->GetAttack();
             Enemy->TakeDamage(DamageToEnemy);
-            std::cout << "[공격] " << Enemy->GetName() << "에게 " << DamageToEnemy
-                << " 피해를 입혔다. (남은 체력: " << Enemy->GetHealth() << ")\n";
+            std::cout << "[전투 보고] " << Enemy->GetName() << "에게 정수리 공격 성공! 피해량: "
+                << DamageToEnemy << " (잔여 모발: " << Enemy->GetHealth() << ")\n";
         }
-        else if (choice == 2) {
+        else if (choice == 2) 
+        {
             Player->CheckInventory();
-            std::cout << "\n사용할 아이템 이름을 입력하세요 (취소: '취소'):\n>> ";
+            std::cout << "\n사용할 두피 보존 키트를 입력하시오 (취소: '취소'):\n>> ";
             std::string itemName;
             std::getline(std::cin, itemName);
 
             if (itemName != "취소")
-                for (auto* item : Player->GetInventory()) {
-                    if (item->GetName() == itemName) {
+            {
+
+                for (auto* item : Player->GetInventory()) 
+                {
+                    if (item->GetName() == itemName) 
+                    {
                         // 공격 아이템이면 몬스터를 타겟으로 설정
                         auto* attackItem = dynamic_cast<AttackItem*>(item);
-                        if (attackItem) {
+                        if (attackItem) 
+                        {
                             attackItem->SetTarget(Enemy); // ⭐ 이걸 안 하면 몬스터 안 맞음
                         }
                         break;
                     }
                 }
                 Player->UseItem(itemName);
-
-            // 아이템 사용 후 적 턴으로 넘어감
+                // 아이템 사용 후 적 턴으로 넘어감
+            }
         }
-        else if (choice == 3) {
-            std::cout << "당신은 도망쳤습니다!\n";
-            return; // 전투 종료
+        else if (choice == 3) 
+        {
+            std::cout << "\n[후퇴 명령] 당신은 전장을 떠났습니다...\n";
+            return;
         }
-        else {
-            std::cout << "잘못된 입력입니다. 턴을 소모하지 않습니다.\n";
+        else 
+        {
+            std::cout << "\n[!] 잘못된 명령입니다. 다시 선택하시오.\n";
             continue; // 다시 선택
         }
 
@@ -85,10 +97,10 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
         Player->TakeDamage(Enemy->GetAttack());
         int AfterHP = Player->GetHealth();
         if (BeforeHP == AfterHP)
-            std::cout << "[회피] 민첩한 빗질로 공격을 피했다.\n";
+            std::cout << "[회피] 민첩한 빗질로 공격을 회피! 두피는 무사합니다.\n";
         else
-            std::cout << "[피해] " << (BeforeHP - AfterHP)
-            << " 데미지 입음. (잔여 체력: " << AfterHP << ")\n";
+            std::cout << "[피격] 정수리에 직접타! "
+            << (BeforeHP - AfterHP) << " 손실 발생 (잔여 모발: " << AfterHP << ")\n";
 
         // 턴 끝날 때 효과 업데이트
         Player->UpdateTurn();
@@ -172,7 +184,7 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
         std::cout << "\n[1] 자라나라 머리머리~!\n";
         std::cout << "[2] 사라져라 머리머리...\n";
 
-        std::cout << "\n입력 >> ";
+        std::cout << "\n숫자를 입력하시오. >> ";
         int choice;
         std::cin >> choice;
         std::cin.ignore();

@@ -11,7 +11,7 @@ void HealingItem::Use(Character* Target)
     if (Target)
     {
         Target->Heal(HealAmount);
-        std::cout << Target->GetName() << "의 두피가 촉촉해진다... +" << HealAmount << " 회복!\n";
+        std::cout << Target->GetName() << "의 두피가 촉촉해진다... +" << HealAmount << " 회복! (잔여 모발: " << Target->GetHealth() << ")\n\n\n";
     }
 }
 

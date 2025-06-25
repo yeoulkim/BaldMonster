@@ -93,7 +93,8 @@ void Character::TakeDamage(int Damage)
 
 void Character::SetAttackBoost(float Multiplier)
 {
-    AttackMultiplier = Multiplier;  // 단순히 공격력 배율만 설정
+    AttackMultiplier = Multiplier;
+    std::cout << std::fixed << std::setprecision(1);  // 소수점 한 자리 고정
     std::cout << Name << "의 머리카락에 광택이 살아났다! (×" << Multiplier << " 공격력)\n";
 }
 
@@ -115,7 +116,8 @@ void Character::Heal(int Amount)
         Health = MaxHealth;
     }
 
-    std::cout << Name << "이(가) 두피에 활력을 되찾았다! +" << Amount << " 체력 (현재 체력: " << Health << ")\n";
+    std::cout << Name << "이(가) 두피에 활력을 되찾았다! +" << Amount << " (잔여 모발: " << Health << ")\n";
+
 }
 
 // 매 턴마다 호출되어 공격력 강화 상태를 업데이트
@@ -149,7 +151,7 @@ void Character::GainExperience(int Amount)
         Attack += 5;
 
         std::cout << "\n[↑] 레벨업! 당신의 두피가 한층 더 단단해졌다.\n";
-        std::cout << "▶ 현재 레벨: " << Level << " | 체력: " << MaxHealth << " | 공격력: " << Attack << "\n";
+        std::cout << "▶ 현재 레벨: " << Level << " | 잔여 모발: " << MaxHealth << " | 공격력: " << Attack << "\n";
     }
 }
 

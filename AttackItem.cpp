@@ -21,7 +21,7 @@ void AttackItem::Use(Character* User)
         TargetEnemy->TakeDamage(Damage);
         // 타겟 이름을 가져와서 출력
         std::string targetName = TargetEnemy->GetName();  // GetName을 사용해서 타겟 이름 가져오기
-        std::cout << "[아이템 공격] " << targetName << "에게 " << Damage << " 피해를 입혔다!\n";
+        std::cout << "[정수리 강타] " << targetName << "의 반짝이는 정수리에 " << Damage << " 피해를 입혔다! \n";
     }
 }
 
