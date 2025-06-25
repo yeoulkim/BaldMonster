@@ -16,15 +16,23 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
     system("pause >nul");
     while (Player->GetHealth() > 0 && Enemy->GetHealth() > 0)
     {
-        std::cout << "\n[ + 작전 선택 + ]\n";
-        std::cout << "┌─────────────────────┐\n";
-        std::cout << "│ 1. 정수리 맨주먹 공격           │\n";
-        std::cout << "│ 2. 두피 보존 키트 사용          │\n";
-        std::cout << "│ 3. 전장 후퇴 (도망가기)         │\n";
-        std::cout << "└─────────────────────┘\n";
+        std::cout << "\n┌───────────────────── 작전 선택 ─────────────────────┐\n";
+        std::cout << "│                                                     │\n";
+        std::cout << "│   1. 정수리 맨주먹 공격                             │\n";
+        std::cout << "│   2. 두피 보존 키트 사용                            │\n";
+        std::cout << "│   3. 전장 후퇴 (도망가기)                           │\n";
+        std::cout << "│                                                     │\n";
+        std::cout << "└─────────────────────────────────────────────────────┘\n";
         std::cout << "명령을 입력하시오 >> ";
+
         int choice;
-        std::cin >> choice;
+        if (!(std::cin >> choice)) // 잘못된 입력이면
+        {
+            std::cin.clear();              // 오류 상태 초기화
+            std::cin.ignore(10000, '\n');  // 잘못된 입력 버리기
+            std::cout << "\n[!] 잘못된 입력입니다. 숫자를 입력하세요.\n";
+            continue;                      // 다시 선택으로 돌아감
+        }
         std::cin.ignore();
 
         system("cls");

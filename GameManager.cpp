@@ -294,123 +294,135 @@ void GameManager::StartRandomBattle(Character* Player)
 // 틀 맞추기
 void GameManager::VisitShop()
 {
-    std::cout << "\n[안내] 보급소 도착. 전장 투입 전 준비를 마치십시오.\n";
-    Sleep(1000);
+    bool bInShop = true;
 
-    int Choice;
-    std::cout << "\n┌──────────  탈모약 보급소 ──────────┐\n";
-    std::cout << "│  보유 골드: " << std::right << std::setw(5) << Player->GetGold() << " G                │\n";
-    std::cout << "├────────────────────────────────────┤\n";
-    std::cout << "│  1. 두피 회복용 탈모약 구매        │\n";
-    std::cout << "│  2. 공격형 탈모 도구 구매          │\n";
-    std::cout << "│  0. 전장으로 복귀                  │\n";
-    std::cout << "└────────────────────────────────────┘\n";
+    while (bInShop)
+    {
+        std::cout << "\n[안내] 보급소 도착. 전장 투입 전 준비를 마치십시오.\n";
+        Sleep(1000);
 
-    std::cout << "당신의 행동을 선택하시오 >> ";
-    std::cin >> Choice;
-    std::cin.ignore();
+        std::cout << "\n┌──────────  탈모약 보급소 ──────────┐\n";
+        std::cout << "│  보유 골드: " << std::right << std::setw(5) << Player->GetGold() << " G                │\n";
+        std::cout << "├────────────────────────────────────┤\n";
+        std::cout << "│  1. 두피 회복용 탈모약 구매        │\n";
+        std::cout << "│  2. 공격형 탈모 도구 구매          │\n";
+        std::cout << "│  0. 전장으로 복귀                  │\n";
+        std::cout << "└────────────────────────────────────┘\n";
+        std::cout << "당신의 행동을 선택하시오 >> ";
 
-    if (Choice == 0)
-    {
-        std::cout << "\n[안내] 보급 종료. 전장으로 복귀합니다.\n";
-        AddLog("머리를 싸매고 보급소를 빠져나왔다...");
+        int Choice;
+        if (!(std::cin >> Choice))  // 숫자 아닌 값 방지
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "[!] 잘못된 입력입니다. 숫자를 입력하세요.\n";
+            continue;
+        }
+        std::cin.ignore();
 
-        return;  // 상점 나가기
-    }
-    else if (Choice == 1)
-    {
-        std::vector<Item*> HealingItems = GetHealingShopItems();  // 힐링 아이템 가져오기
-        ShowShopItems(HealingItems);
-    }
-    else if (Choice == 2)
-    {
-        std::vector<Item*> AttackItems = GetAttackShopItems();  // 공격 아이템 가져오기
-        ShowShopItems(AttackItems);
-    }
-    else
-    {
-        std::cout << "[!] 유효하지 않은 선택입니다. 다시 시도하시오.\n";
+        switch (Choice)
+        {
+        case 0:
+            std::cout << "\n[안내] 보급 종료. 전장으로 복귀합니다.\n";
+            AddLog("머리를 싸매고 보급소를 빠져나왔다...");
+            bInShop = false;
+            break;
+        case 1:
+            ShowShopItems(GetHealingShopItems());
+            break;
+        case 2:
+            ShowShopItems(GetAttackShopItems());
+            break;
+        default:
+            std::cout << "[!] 유효하지 않은 선택입니다. 다시 시도하시오.\n";
+            break;
+        }
     }
 }
+
+
 
 void GameManager::ShowShopItems(const std::vector<Item*>& ShopItems)
 {
-    std::cout << "\n┌─────────────  전장 보급 목록 ─────────────┐\n";
-    for (size_t i = 0; i < ShopItems.size(); ++i)
+    while (true)
     {
-        std::cout << "│  " << i + 1 << ". " << std::left << std::setw(15) << ShopItems[i]->GetName()
-            << " - 가격: " << std::right << std::setw(5) << ShopItems[i]->GetPrice() << " G       │\n";
-    }
-    std::cout << "└───────────────────────────────────────────┘\n";
-    std::cout << "0. 보급소를 떠난다\n";
-    std::cout << "당신의 보급 선택을 입력하시오 >> ";
-
-    int Choice;
-    std::cin >> Choice;
-    std::cin.ignore();
-
-    if (Choice == 0)
-    {
-        std::cout << "\n[안내] 보급 종료. 전장으로 복귀합니다.\n";
-        AddLog("머리를 싸매고 보급소를 빠져나왔다...");
-        return;  // 상점 나가기
-    }
-    else if (Choice >= 1 && Choice <= static_cast<int>(ShopItems.size()))
-    {
-        Item* SelectedItem = ShopItems[Choice - 1];
-        int Price = SelectedItem->GetPrice();  // 가격 반영
-
-        // ✅ HealingItem일 경우: 구매 전에 경고 + 바로 사용 처리
-        if (dynamic_cast<HealingItem*>(SelectedItem))
+        std::cout << "\n┌─────────────  전장 보급 목록 ─────────────┐\n";
+        for (size_t i = 0; i < ShopItems.size(); ++i)
         {
-            std::cout << "\n[안내] 탈모약은 구매 즉시 사용됩니다. 신중히 선택하십시오.\n";
-            std::cout << "[1] 복용하고 전장에 대비한다\n";
-            std::cout << "[2] 지갑을 지켜낸다\n";
-            std::cout << "당신의 행동을 선택하시오 >> ";
+            std::cout << "│  " << i + 1 << ". " << std::left << std::setw(15) << ShopItems[i]->GetName()
+                << " - 가격: " << std::right << std::setw(5) << ShopItems[i]->GetPrice() << " G       │\n";
+        }
+        std::cout << "│  " << "0. 보급소 메인으로 돌아가기              │\n";
+        std::cout << "└───────────────────────────────────────────┘\n";
+        std::cout << "당신의 보급 선택을 입력하시오 >> ";
 
-            int Confirm;
-            std::cin >> Confirm;
-            std::cin.ignore();
+        int Choice;
+        if (!(std::cin >> Choice))
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cout << "[!] 잘못된 입력입니다. 숫자를 입력하세요.\n";
+            continue;
+        }
+        std::cin.ignore();
 
-            if (Confirm == 1)
+        if (Choice == 0)
+        {
+            std::cout << "\n[안내] 보급소 메인으로 돌아갑니다.\n";
+            return;
+        }
+        else if (Choice >= 1 && Choice <= static_cast<int>(ShopItems.size()))
+        {
+            Item* SelectedItem = ShopItems[Choice - 1];
+            int Price = SelectedItem->GetPrice();
+
+            // HealingItem 처리
+            if (dynamic_cast<HealingItem*>(SelectedItem))
             {
-                if (Player->GetGold() >= Price)
+                std::cout << "\n[안내] 탈모약은 구매 즉시 사용됩니다.\n";
+                std::cout << "[1] 복용하고 전장에 대비한다\n";
+                std::cout << "[2] 지갑을 지켜낸다\n";
+                std::cout << "당신의 행동을 선택하시오 >> ";
+
+                int Confirm;
+                std::cin >> Confirm;
+                std::cin.ignore();
+
+                if (Confirm == 1 && Player->GetGold() >= Price)
                 {
                     Player->SetGold(Player->GetGold() - Price);
-                    SelectedItem->Use(Player);  // ✅ 바로 효과 적용
-                    AddLog(SelectedItem->GetName() + "을(를) 구매하고 즉시 사용했다.\n두피에 힘이 돌아온다...");
+                    SelectedItem->Use(Player);
+                    AddLog(SelectedItem->GetName() + "을(를) 구매하고 즉시 사용했다.");
                 }
                 else
                 {
-                    AddLog("보유 골드가 부족하다. 더 이상 지갑을 열 수 없다...");
-
+                    AddLog("구매를 취소했거나 자금이 부족했다.");
                 }
+
+                return;
+            }
+
+            // 공격 아이템 처리
+            if (Player->GetGold() >= Price)
+            {
+                Player->SetGold(Player->GetGold() - Price);
+                Player->AddItem(SelectedItem);
+                AddLog(SelectedItem->GetName() + "을(를) 구매했다.");
             }
             else
             {
-                AddLog("구매를 취소했다. 두피는 아직 결정을 망설이고 있다.");
+                AddLog("보유 골드가 부족하다.");
             }
 
-            return; // HealingItem 처리 후 함수 종료
-        }
-
-        // ✅ 공격 아이템
-        if (Player->GetGold() >= Price)
-        {
-            Player->SetGold(Player->GetGold() - Price);
-            Player->AddItem(SelectedItem);
-            AddLog(SelectedItem->GetName() + "을(를) 구매했다. 정수리 전투력이 상승한다.");
+            return; // 구매 후 상점 메인으로
         }
         else
         {
-            AddLog("보유 골드가 부족하다. 더 이상 지갑을 열 수 없다...");
+            std::cout << "[!] 유효하지 않은 선택입니다. 다시 시도하시오.\n";
         }
     }
-    else
-    {
-        std::cout << "[!] 유효하지 않은 선택입니다. 다시 시도하시오.\n";
-    }
 }
+
 
 std::vector<Item*> GameManager::GetHealingShopItems()
 {
