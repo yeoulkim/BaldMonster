@@ -1,0 +1,45 @@
+﻿  AttackItem.cpp
+\Users\user\Desktop\manager3\AttackItem.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\AttackItem.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/AttackItem.cpp'을(를) 컴파일하는 중)
+  
+  BattleSystem.cpp
+\Users\user\Desktop\manager3\BattleSystem.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\BattleSystem.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/BattleSystem.cpp'을(를) 컴파일하는 중)
+  
+  BossMonster.cpp
+\Users\user\Desktop\manager3\BossMonster.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\BossMonster.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/BossMonster.cpp'을(를) 컴파일하는 중)
+  
+  Character.cpp
+\Users\user\Desktop\manager3\Character.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\Character.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/Character.cpp'을(를) 컴파일하는 중)
+  
+  GameManager.cpp
+\Users\user\Desktop\manager3\GameManager.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\GameManager.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/GameManager.cpp'을(를) 컴파일하는 중)
+  
+  HealingItem.cpp
+\Users\user\Desktop\manager3\HealingItem.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\HealingItem.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/HealingItem.cpp'을(를) 컴파일하는 중)
+  
+  item.cpp
+\Users\user\Desktop\manager3\item.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\item.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/item.cpp'을(를) 컴파일하는 중)
+  
+  main.cpp
+\Users\user\Desktop\manager3\main.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\main.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/main.cpp'을(를) 컴파일하는 중)
+  
+  MonsterBase.cpp
+\Users\user\Desktop\manager3\MonsterBase.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\MonsterBase.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/MonsterBase.cpp'을(를) 컴파일하는 중)
+  
+  UObjectBase.cpp
+\Users\user\Desktop\manager3\UObjectBase.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\UObjectBase.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/UObjectBase.cpp'을(를) 컴파일하는 중)
+  
+  YellowMonster.cpp
+\Users\user\Desktop\manager3\YellowMonster.cpp(1,1): error C1083: 소스 파일을 열 수 없습니다. '..\..\..\Users\user\Desktop\manager3\YellowMonster.cpp': No such file or directory
+  (소스 파일 '/Users/user/Desktop/manager3/YellowMonster.cpp'을(를) 컴파일하는 중)
+  
+  코드를 생성하고 있습니다...
