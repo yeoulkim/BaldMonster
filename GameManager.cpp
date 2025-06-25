@@ -298,12 +298,12 @@ void GameManager::VisitShop()
     Sleep(1000);
 
     int Choice;
-    std::cout << "\n┌───────────  탈모약 보급소  ──────────┐\n";
+    std::cout << "\n┌──────────  탈모약 보급소 ──────────┐\n";
     std::cout << "│  보유 골드: " << std::right << std::setw(5) << Player->GetGold() << " G                │\n";
     std::cout << "├────────────────────────────────────┤\n";
     std::cout << "│  1. 두피 회복용 탈모약 구매        │\n";
-    std::cout << "│  2. 공격형 탈모 도구 구매       │\n";
-    std::cout << "│  0. 전장으로 복귀                    │\n";
+    std::cout << "│  2. 공격형 탈모 도구 구매          │\n";
+    std::cout << "│  0. 전장으로 복귀                  │\n";
     std::cout << "└────────────────────────────────────┘\n";
 
     std::cout << "당신의 행동을 선택하시오 >> ";
@@ -339,9 +339,9 @@ void GameManager::ShowShopItems(const std::vector<Item*>& ShopItems)
     for (size_t i = 0; i < ShopItems.size(); ++i)
     {
         std::cout << "│  " << i + 1 << ". " << std::left << std::setw(15) << ShopItems[i]->GetName()
-            << " - 가격: " << std::right << std::setw(5) << ShopItems[i]->GetPrice() << " G     │\n";
+            << " - 가격: " << std::right << std::setw(5) << ShopItems[i]->GetPrice() << " G       │\n";
     }
-    std::cout << "└─────────────────────────────────────────┘\n";
+    std::cout << "└───────────────────────────────────────────┘\n";
     std::cout << "0. 보급소를 떠난다\n";
     std::cout << "당신의 보급 선택을 입력하시오 >> ";
 
