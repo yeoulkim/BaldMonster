@@ -1,5 +1,8 @@
 ﻿#include "UObjectBase.h"
 
+#include <bits/this_thread_sleep.h>
+#include <iostream>
+
 UObjectBase::UObjectBase()
 {
     bIsTickEnabled = true;

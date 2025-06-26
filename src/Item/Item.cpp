@@ -1,4 +1,4 @@
-#include "../../include/Item/Item.h"
+#include "Item/Item.h"
 
 Item::Item() : Name(""), Price(0), Source(EItemSource::ShopPurchase) {}
 

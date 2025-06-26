@@ -3,7 +3,6 @@
 //
 #pragma once
 #include "MonsterBase.h"
-#include <iostream>
 
 class BossMonster : public MonsterBase {
 public:

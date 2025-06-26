@@ -1,12 +1,12 @@
-﻿#include "../../include/Character/Character.h"
+﻿#include "Character/Character.h"
 #include <iostream>
 #include <iomanip>
-#include "../../include/Item/AttackItem.h"
+#include "Item/AttackItem.h"
 
 Character::Character(std::string Name, int Health, int Attack, int Level)
     : Name(Name),
-    Health(Health),
     MaxHealth(Health),
+    Health(Health),
     Attack(Attack),
     Level(Level),
     Experience(0),
@@ -63,20 +63,36 @@ void Character::UseItem(const std::string& ItemName)
 void Character::CheckInventory()
 {
     std::cout << "\n┌───────────  탈모 생존 키트  ───────────┐\n";
-
     if (Inventory.empty())
     {
-        std::cout << "│  아직 두피를 지킬 아이템이 없습니다.   │\n";
+        std::cout << "  아직 두피를 지킬 아이템이 없습니다.   \n";
     }
     else
     {
         for (auto* Item : Inventory)
         {
-            std::cout << "│  - " << std::left << std::setw(15) << Item->GetName() << "                     │" << "\n";
+            std::cout << "  - " << std::left << std::setw(15) << Item->GetName() << "                     " << "\n";
         }
     }
+    std::cout << "└──────────────────────────────────────┘\n";
 
-    std::cout << "└────────────────────────────────────────┘\n";
+}
+
+std::vector<Item*> Character::GetInventory() const {
+    return Inventory;
+}
+void Character::RemoveItemByIndex(int index)
+{
+    if (index >= 0 && index < static_cast<int>(Inventory.size()))
+    {
+        delete Inventory[index];
+        Inventory.erase(Inventory.begin() + index);
+        std::cout << "[판매 완료] 아이템이 인벤토리에서 제거되었습니다.\n";
+    }
+    else
+    {
+        std::cout << "[실패] 유효하지 않은 인덱스입니다.\n";
+    }
 }
 
 void Character::TakeDamage(int Damage)
@@ -157,8 +173,8 @@ void Character::GainExperience(int Amount)
 
 // Getter 함수
 std::string Character::GetName() const { return Name; }
-int Character::GetHealth() const { return Health; }
 int Character::GetMaxHealth() const { return MaxHealth; }
+int Character::GetHealth() const { return Health; }
 int Character::GetLevel() const { return Level; }
 int Character::GetGold() const { return Gold; }
 int Character::GetExperience() const { return Experience; }
@@ -166,12 +182,9 @@ int Character::GetExperience() const { return Experience; }
 
 // Setter 함수
 void Character::SetName(const std::string &NameName) {Name = NameName;}
-void Character::SetMaxHealth(int NewMaxHealth) {Level = NewMaxHealth;}
-void Character::SetLevel(int NewLevel) { Level = NewLevel; }
+void Character::SetMaxHealth(int NewMaxHealth) {MaxHealth = NewMaxHealth;}
 void Character::SetHealth(int NewHealth) { Health = NewHealth; }
+void Character::SetLevel(int NewLevel) { Level = NewLevel; }
+void Character::SetAttack(int NewAttack){Attack = NewAttack;}
 void Character::SetExperience(int NewExp) { Experience = NewExp; }
 void Character::SetGold(int NewGold) { Gold = NewGold; }
-
-std::vector<Item*> Character::GetInventory() const {
-    return Inventory;
-}

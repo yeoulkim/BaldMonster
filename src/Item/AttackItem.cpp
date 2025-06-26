@@ -1,6 +1,6 @@
-﻿#include "../../include/Item/AttackItem.h"
-#include "../../include/Character/Character.h"
+﻿#include "Item/AttackItem.h"
 #include <iostream>
+#include "Character/Character.h"
 
 AttackItem::AttackItem(std::string InName, int InDamage, std::string InMessage, EAttackEffect InEffectType, int InPrice)
     : Item(InName, InPrice), Damage(InDamage), AcquireMessage(InMessage), EffectType(InEffectType) {

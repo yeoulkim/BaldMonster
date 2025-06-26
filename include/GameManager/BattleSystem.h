@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include<iostream>
 #include<string>
-#include "../../include/Character/Character.h"
-#include "../../include/Monster/MonsterBase.h"
+#include "Monster/MonsterBase.h"
 
 // 전투관리 열거 추가
 enum class PlayAction {Attack = 1, UseItem = 2, Run = 3};

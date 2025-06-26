@@ -1,1 +1,9 @@
-{"gold":0,"health":200,"level":1,"max_health":200,"name":"k"}
+{
+    "attack": 25,
+    "exp": 0,
+    "gold": 69,
+    "health": 220,
+    "level": 2,
+    "max_health": 220,
+    "name": "k"
+}

@@ -1,15 +1,14 @@
-﻿#include "../../include/GameManager/BattleSystem.h"
-#include "../../include/GameManager/GameManager.h"
-#include "../../include/Item/AttackItem.h"
+﻿#include "GameManager/BattleSystem.h"
 #include <iostream>
 #include <cstdlib>
 #include <filesystem>
 #include <random>
 #include <windows.h>
+#include "GameManager/GameManager.h"
+#include "Item/AttackItem.h"
 
 #include "BossMonster.h"
 #include "MonsterLoader.h"
-#include "Util/Util.h"
 
 extern GameManager* GManager;   // GameManager에 접근하기 위해 전역 포인터 사용 -> 배틀시스템 안에서도 ResetGame() 호출 가능
 
@@ -71,12 +70,12 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
 
         while (Player->IsAlive() && Enemy->IsAlive()) {
             std::cout << "\n┌───────────────────── 작전 선택 ─────────────────────┐\n";
-            std::cout << "│                                                     │\n";
-            std::cout << "│   1. 정수리 맨주먹 공격                                 │\n";
-            std::cout << "│   2. 두피 보존 키트 사용                                │\n";
-            std::cout << "│   3. 전장 후퇴 (도망가기)                               │\n";
-            std::cout << "│                                                     │\n";
-            std::cout << "└─────────────────────────────────────────────────────┘\n";
+            std::cout << "                                                     \n";
+            std::cout << "    1. 정수리 맨주먹 공격                                 \n";
+            std::cout << "    2. 두피 보존 키트 사용                                \n";
+            std::cout << "    3. 전장 후퇴 (도망가기)                               \n";
+            std::cout << "                                                     \n";
+            std::cout << "└────────────────────────────────────────────────────┘\n";
             std::cout << "명령을 입력하시오 >> ";
 
             if (std::cin.peek() == '\n') std::cin.ignore();    // 남은 개행 제거

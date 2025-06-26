@@ -1,8 +1,9 @@
 ﻿//
 // Created by suaio on 2025-06-24.
 //
-#include "../include/Monster/BossMonster.h"
-#include "../include/Monster/MonsterBase.h"
+#include "Monster/BossMonster.h"
+#include "Monster/MonsterBase.h"
+#include <iostream>
 
 // 보스 몬스터 생성자
 BossMonster::BossMonster(MonsterDefinition def, int level)

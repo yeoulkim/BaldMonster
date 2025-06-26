@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Item.h"
-#include "../../include/Monster/MonsterBase.h"
+#include "Monster/MonsterBase.h"
 
 enum class EAttackEffect
 {

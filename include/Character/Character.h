@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include "../../include/Item/Item.h"
+#include "Item/Item.h"
 
 class Character
 {
@@ -17,9 +17,10 @@ public:
     // 아이템 관련
     void AddItem(Item* NewItem);
     void UseItem(const std::string& ItemName);
-    void DisplayInventory();
-    std::vector<Item*> GetInventory() const;
+
     void CheckInventory();
+    std::vector<Item*> GetInventory() const;
+    void RemoveItemByIndex(int index);
 
     void Heal(int Amount);
     void TakeDamage(int Damage);
@@ -30,7 +31,6 @@ public:
     
     // 매 턴마다 부스트 효과 제거
     void UpdateTurn();
-
 
     // 경험치/레벨업
     void GainExperience(int Amount);
@@ -47,9 +47,10 @@ public:
 
     // Setter
     void SetName(const std::string& NameName);
-    void SetLevel(int NewLevel);
-    void SetHealth(int NewHealth);
     void SetMaxHealth(int NewHealth);
+    void SetHealth(int NewHealth);
+    void SetLevel(int NewLevel);
+    void SetAttack(int NewAttack);
     void SetGold(int NewGold);
     void SetExperience(int NewExp);
 

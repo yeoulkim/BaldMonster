@@ -5,7 +5,7 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "../../include/Item/Item.h"
+#include "Item/Item.h"
 #include "MonsterDefinition.h"
 
 // 몬스터 클래스

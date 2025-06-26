@@ -9,49 +9,61 @@
 
 // 일로만 형 고마워
 using json = nlohmann::json;
+namespace fs = std::filesystem;
 
-bool SaveManager::SaveGame(Character *player, const std::string &fileName) {
-    json j;
-    j["name"] = player->GetName();
-    j["level"] = player->GetLevel();
-    j["health"] = player->GetHealth();
-    j["max_health"] = player->GetMaxHealth();
-    j["gold"] = player->GetGold();
-
-    std::ofstream out("save/ " + fileName + ".json");
-    if (!out) {
-        std::cerr << "파일 저장 실패 " << fileName << ".json" << std::endl;
-        return true;
-    }
-
-    out << j.dump();
-    out.close();
-    std::cout << "게임 시원하게 저장완료~ " << fileName << ".json" << std::endl;
-
+// 저장될 경로 생성
+static fs::path slotPath(const std::string& slot) {
+    return fs::path("save") / (slot + ".json");
 }
 
-bool SaveManager::LoadGame(Character *player, const std::string &fileName) {
-    std::ifstream in("save/ " + fileName + ".json");
-    if (!in) {
-        std::cerr << "불러오기 실패: 저장 파일 없음.\n" << fileName << ".json" << std::endl;
+// 게임 데이터 직렬화 저장
+bool SaveManager::SaveGame(Character *player, const std::string& slot) {
+
+    try {
+        // save 파일 생성
+        fs::create_directories("save");
+
+        json j;
+        j["name"] = player->GetName();
+        j["max_health"] = player->GetMaxHealth();
+        j["health"] = player->GetHealth();
+        j["level"] = player->GetLevel();
+        j["attack"] = player->GetAttack();
+        j["exp"] = player->GetExperience();
+        j["gold"] = player->GetGold();
+
+        std::ofstream ofs(slotPath(slot));
+        if (!ofs) throw std::runtime_error("SaveManager::SaveGame(): 파일열기 실패.");
+        ofs << std::setw(4) << j;
+        return true;
+
+    }catch (std::exception &e) {
+        std::cerr << "SaveManager::SaveGame(): 게임저장 실패: " << e.what() << '\n';
         return false;
     }
 
-    json j;
-    in >> j;
-    in.close();
+}
+
+// 게임 불러오기
+bool SaveManager::LoadGame(Character *player, const std::string& slot) {
 
     try {
-        player->SetName(j.at("name").get<std::string>());
-        player->SetLevel(j.at("level").get<int>());
-        player->SetHealth(j.at("health").get<int>());
-        player->SetMaxHealth(j.at("max_health").get<int>());
-        player->SetGold(j.at("gold").get<int>());
+        std::ifstream ifs(slotPath(slot));
+        if (!ifs) return false; // 파일 없음
+        json j; ifs >> j;
 
-        std::cout << "서둘러 빛나는 게임을 불러오겠습니다." << fileName << std::endl;
+        player->SetName(j.value("name", "???"));
+        player->SetMaxHealth(j.value("max_health", 100));
+        player->SetHealth(j.value("hp", 100));
+        player->SetLevel(j.value("level", 1));
+        player->SetAttack(j.value("attack", 1));
+        player->SetExperience(j.value("exp", 0));
+        player->SetGold(j.value("gold", j.value("gold", 0)));
+
+        std::cout << "서둘러 빛나는 게임을 불러오겠습니다." << slot << std::endl;
         return true;
     }catch (const std::exception &e) {
-        std::cerr << "역직렬화 오류!!: " << e.what() << std::endl;
+        std::cerr << "역직렬화 오류 : 불러오기 실패" << e.what() << std::endl;
         return false;
     }
 }

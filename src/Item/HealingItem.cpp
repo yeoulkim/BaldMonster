@@ -1,6 +1,6 @@
-﻿#include "../../include/Item/HealingItem.h"
-#include "../../include/Character/Character.h"
+﻿#include "Item/HealingItem.h"
 #include <iostream>
+#include "Character/Character.h"
 
 HealingItem::HealingItem(std::string InName, int InAmount, std::string InMessage, int InPrice)
     : Item(InName, InPrice), HealAmount(InAmount), AcquireMessage(InMessage) {

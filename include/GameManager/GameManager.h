@@ -1,15 +1,11 @@
 ﻿#pragma once
 
 #include "UObjectBase.h"
-#include "../../include/Character/Character.h"
-#include "BattleSystem.h"
-#include "../../include/Monster/MonsterBase.h"
-#include "../../include/Item/Item.h"
-// #include "YellowMonster.h"
-// #include "BossMonster.h"
-// #include "Shop.h"
 #include <string>
 #include <vector>
+#include "Character/Character.h"
+#include "Monster/MonsterBase.h"
+#include "Item/Item.h"
 
 class GameManager : public UObjectBase
 {
@@ -27,8 +23,8 @@ public:
     void LevelUp();
 
     void VisitShop();
-    void DisplayInventory(Character* Player);
     void ShowShopItems(const std::vector<Item*>& ShopItems);
+    void ShowInventoryItems();
 
     void ShowGameLog(std::string Message);
     void ResetGame();
@@ -52,4 +48,5 @@ private:
     int InventorySize = 0;
     std::vector<std::string> GameLog;
     bool bIsFirstPlay = true;
+    bool bIsTickEnabled = true;
 };

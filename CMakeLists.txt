@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.31)
-project(manager)
+project(BaldMonster)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -10,7 +10,7 @@ include_directories(include/GameManager)
 include_directories(include/Item)
 include_directories(include/Monster)
 
-add_executable(manager
+add_executable(BaldMonster
         include/Character/Character.h
         include/GameManager/BattleSystem.h
         include/GameManager/GameManager.h
