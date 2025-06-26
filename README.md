@@ -143,7 +143,7 @@
 
 ## 🎥 시연 영상
 
-🔗 준비 중 (업로드 예정)
+🔗 [YouTube](https://youtu.be/HYH3FoAEEyc)
 
 <br>
 
