@@ -149,7 +149,8 @@
 
 ## 🛠 사용한 툴
 
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) – 개발 및 디버깅
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) – 개발 환경
+- [CLion](https://www.jetbrains.com/clion/promo/?source=google&medium=cpc&campaign=APAC_en_KR_Clion_Branded&term=clion&content=489240779906&gad_source=1&gad_campaignid=11960744627&gbraid=0AAAAADloJziiyE8B9JeLXqc0qHTqBDxio&gclid=CjwKCAjw3_PCBhA2EiwAkH_j4jxbMErdtM89Qut4zLz0aRGqK56ljzgKYrLuPXi07AretTu0EnFtJRoC1X0QAvD_BwE) – 개발 환경
 - [Notion](https://www.notion.so/kimyeoul/CH-2-RPG-218cf60eefb680b288bbfd44698b999c) – 기획, 정리
 - [Creately](https://app.creately.com/d/sJeIGyQL8LT/edit) – Game Flow Chart 제작
 - [Image to ASCII](https://www.asciiart.eu/image-to-ascii) – ASCII 아트 변환 도구
