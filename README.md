@@ -1,6 +1,6 @@
 # 🧠 『 최후의 모발: 탈모 바이러스와의 전투 』
 
-![Project Thumbnail](images/project_thumbnail.png)
+![Project Thumbnail](project_thumbnail.png)
 
 ---
 
@@ -33,7 +33,7 @@
 > **‘대머리 군단’**과 치열한 전투를 벌이며  
 > 세상을 구하기 위한 싸움에 나선다.
 
----
+<br>
 
 ## 🎯 프로젝트 목표
 
@@ -50,7 +50,7 @@
 - **게임 저장/불러오기**
   게임 데이터를 저장하고 불러와 이전 상태로 이어서 진행 가능
 
----
+<br>
 
 ## 🧩 주요 기능
 
@@ -78,7 +78,7 @@
 - **불러오기** 
   저장된 데이터로 게임을 이어서 진행
 
----
+<br>
 
 ## 🔁 Game Flow Chart
 
@@ -108,19 +108,19 @@
 게임은 단계적인 루프 구조로 진행되며,  
 플레이어의 선택과 전투 결과에 따라 다양한 분기로 전개됩니다.
 
----
+<br>
 
 ## 🔍 코드 분석  
 
 🔗 [Code Analysis](https://www.notion.so/kimyeoul/Code-Analysis-21dcf60eefb680a5ade6c291a2a0c618)
 
----
+<br>
 
 ## 📦 데이터 규격   
 
 🔗 [Data spec](https://www.notion.so/kimyeoul/Data-spec-21dcf60eefb680fabf95eabc4146623a)
 
----
+<br>
 
 ## 👥 역할 및 작업 노션
 
@@ -137,13 +137,13 @@
 - 🔗 [Monster, SaveManager, Dungeon](https://www.notion.so/kimyeoul/Monster-218cf60eefb680038bcfc422e9b17903)
 - 🔗 [Shop](https://www.notion.so/kimyeoul/Shop-218cf60eefb680bda8b9f886ef89811c)
 
----
+<br>
 
 ## 🎥 시연 영상
 
 🔗 준비 중 (업로드 예정)
 
----
+<br>
 
 ## 🛠 사용한 툴
 
@@ -152,7 +152,7 @@
 - [Creately](https://app.creately.com/d/sJeIGyQL8LT/edit) – Game Flow Chart 제작
 - [Image to ASCII](https://www.asciiart.eu/image-to-ascii) – ASCII 아트 변환 도구
 
----
+<br>
 
 ## 🧑‍🤝‍🧑 17조
 
