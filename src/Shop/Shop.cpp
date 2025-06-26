@@ -179,7 +179,7 @@ std::vector<Item*> Shop::GetHealingItems()
 std::vector<Item*> Shop::GetAttackItems()
 {
     std::vector<Item*> items;
-    items.push_back(new AttackItem("모근 브러시", 10, "정수리 치기 좋음", EAttackEffect::DirectDamage, 30));
-    items.push_back(new AttackItem("전투용 탈모약", 30, "부작용 있음", EAttackEffect::DirectDamage, 60));
+    items.push_back(new AttackItem("Combat Brush", 10, "정수리 치기 좋음", EAttackEffect::DirectDamage, 30));
+    items.push_back(new AttackItem("Combat Hair Tonic", 30, "부작용 있음", EAttackEffect::DirectDamage, 60));
     return items;
 }
