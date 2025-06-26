@@ -188,7 +188,7 @@ void GameManager::Tick(float DeltaTime)
         // EndGame();
         return;
     }
-    std::cout << "\x1B[36m";
+    //std::cout << "\x1B[36m";
     std::cout << "\n[O] 당신의 모근은 아직 버티고 있다.\n";
     std::cout << "다음 작전을 선택한다.\n";
     std::cout << "----------------------------------------\n";
@@ -199,7 +199,7 @@ void GameManager::Tick(float DeltaTime)
     std::cout << "[5] 전장을 떠나 대머리의 길을 걷는다.\n";
     std::cout << "----------------------------------------\n";
     std::cout << "입력 >> ";
-    std::cout << "\x1B[0m";
+    //std::cout << "\x1B[0m";
 
     int Choice;
     std::cin >> Choice;
@@ -294,7 +294,7 @@ void GameManager::DungeonMenu(Character* player)
     while (true) {
         system("cls");
         std::cin.clear();
-        std::cout << "\n[탈모 방패] 반짝임으로부터 잠시 회피합니다. 엔터를 눌러 계속.\n";
+        // std::cout << "\n[탈모 방패] 반짝임으로부터 잠시 회피합니다. 엔터를 눌러 계속.\n";
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         std::cout <<

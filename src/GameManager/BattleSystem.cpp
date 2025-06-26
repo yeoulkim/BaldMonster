@@ -145,7 +145,7 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
             {
                 std::cout << "[V] " << Enemy->GetName() << " 제거 완료.\n";
 
-                int ExpReward = 20;
+                int ExpReward = 50;
                 int GoldReward = 10 + (rand() % 41);
 
                 Player->GainExperience(ExpReward);
