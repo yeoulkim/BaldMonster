@@ -92,13 +92,13 @@ void Shop::ShowBuyMenu(Character* Player)
 void Shop::ShowBuyAttackMenu(Character* Player)
 {
     std::vector<Item*> Items = GetAttackItems();
-    std::cout << "\n┌─────────────  공격형 탈모 도구 목록 ─────────────┐\n";
+    std::cout << "\n┌────────────  공격형 탈모 도구 목록 ───────────┐\n";
     for (size_t i = 0; i < Items.size(); ++i)
     {
-        std::cout << "│  " << i + 1 << ". " << std::left << std::setw(15) << Items[i]->GetName()
-            << " - 가격: " << std::right << std::setw(5) << Items[i]->GetPrice() << " G       │\n";
+        std::cout << "  " << i + 1 << ". " << std::left << std::setw(20) << Items[i]->GetName()
+            << " - 가격: " << std::right << std::setw(5) << Items[i]->GetPrice() << " G       \n";
     }
-    std::cout << "│  0. 보급소 메인으로 돌아가기              │\n";
+    std::cout << "  0. 보급소 메인으로 돌아가기              \n";
     std::cout << "└───────────────────────────────────────────┘\n";
     std::cout << "당신의 보급 선택을 입력하시오 >> ";
 
@@ -179,7 +179,7 @@ std::vector<Item*> Shop::GetHealingItems()
 std::vector<Item*> Shop::GetAttackItems()
 {
     std::vector<Item*> items;
-    items.push_back(new AttackItem("모근 브러시", 10, "정수리 치기 좋음", EAttackEffect::DirectDamage, 30));
-    items.push_back(new AttackItem("전투용 탈모약", 30, "부작용 있음", EAttackEffect::DirectDamage, 60));
+    items.push_back(new AttackItem("Combat Brush", 10, "정수리 치기 좋음", EAttackEffect::DirectDamage, 30));
+    items.push_back(new AttackItem("Combat Hair Tonic", 30, "부작용 있음", EAttackEffect::DirectDamage, 60));
     return items;
 }
