@@ -238,10 +238,6 @@ void BattleSystem::StartBattle(Character* Player, MonsterBase* Enemy, int MaxExp
 
 void GameManager::StartBossBattle(Character* player)
 {
-    MonsterDefinition def = LoadMonster("assets/data/boss.monster.json");  // 반드시 존재해야 함
-    MonsterBase* boss = new BossMonster(def, player->GetLevel());
-    BattleSystem::StartBattle(player, boss, MaxExperience);
-
 
     std::cout << "\n...\n";
     Sleep(1000);
@@ -273,6 +269,10 @@ void GameManager::StartBossBattle(Character* player)
         AddLog("진영형님과의 조우를 회피했다. 모발은 살아남았지만, 자존심은 흔들렸다.");
         return;
     }
+
+    MonsterDefinition def = LoadMonster("assets/data/boss.monster.json");  // 반드시 존재해야 함
+    MonsterBase* boss = new BossMonster(def, player->GetLevel());
+    BattleSystem::StartBattle(player, boss, MaxExperience);
 
     delete boss;
 }

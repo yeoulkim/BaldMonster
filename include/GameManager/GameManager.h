@@ -44,7 +44,7 @@ private:
     int Gold = 0;
     //int MaxHealth = 200;
     int MaxExperience = 100;
-    int MaxLevel = 10;
+    int MaxLevel = 11;
     int InventorySize = 0;
     std::vector<std::string> GameLog;
     bool bIsFirstPlay = true;
