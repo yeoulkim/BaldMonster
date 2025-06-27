@@ -114,13 +114,7 @@
 
 ## 🔍 코드 분석  
 
-🔗 [Code Analysis](https://www.notion.so/kimyeoul/Code-Analysis-21dcf60eefb680a5ade6c291a2a0c618)
-
-<br>
-
-## 📦 데이터 규격   
-
-🔗 [Data spec](https://www.notion.so/kimyeoul/Data-spec-21dcf60eefb680fabf95eabc4146623a)
+🔗 [Code Analysis](https://www.notion.so/kimyeoul/21fcf60eefb68034af18f204f9f0b042?v=21fcf60eefb680df9f39000c4ea0d2e5&source=copy_link)
 
 <br>
 
