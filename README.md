@@ -137,7 +137,7 @@
 
 ## 🎥 시연 영상
 
-🔗 [YouTube](https://youtu.be/HYH3FoAEEyc)
+🔗 [YouTube](https://youtu.be/F0vJ_eXpgU4)
 
 <br>
 
